@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import "./AppLayout.css";
+import useMemoryData from "../../hooks/useMemoryData.ts";
 
 
 type NavItem = {
@@ -21,7 +22,7 @@ const NAV_ITEMS: NavItem[] = [
 function AppLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const location = useLocation();
-
+    const {refresh,isLoading} = useMemoryData();
 
 
  
@@ -156,7 +157,7 @@ function AppLayout() {
                             <span className="material-symbols-outlined">schedule</span>
                             Last 15 minutes
                         </button>
-                        <button type="button" aria-label="Atualizar" className="icon-btn">
+                        <button type="button" aria-label="Atualizar" onClick={refresh} className="icon-btn">
                             <span className="material-symbols-outlined">refresh</span>
                         </button>
                     </div>
@@ -164,7 +165,7 @@ function AppLayout() {
 
                 {/* Conteúdo da rota ativa */}
                 <main id="main-content" tabIndex={-1} className="main-content">
-                    <Outlet />
+                      <Outlet context={{ isLoading }} />
                 </main>
             </div>
         </div>

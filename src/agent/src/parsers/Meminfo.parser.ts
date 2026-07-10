@@ -29,8 +29,10 @@ export interface MeminfoResult {
     totalSwapPssKB?: number;
     breakdown: MeminfoBreakdownRow[];
     appSummary: MeminfoAppSummary;
+    // NOVO: dados reais do sistema, necessários para pressão real
+    systemTotalRamKB?: number;
+    systemAvailRamKB?: number;
 }
-
 const num = (v: string | undefined): number | undefined => {
     if (v === undefined) return undefined;
     const n = Number(v.replace(/,/g, "").trim());
@@ -132,4 +134,13 @@ export function parseMeminfo(raw: string): MeminfoResult {
     }
 
     return result;
+}
+export function parseProcMeminfo(raw: string): { totalRamKB?: number; availRamKB?: number } {
+    const totalMatch = raw.match(/^MemTotal:\s*(\d+)\s*kB/m);
+    const availMatch = raw.match(/^MemAvailable:\s*(\d+)\s*kB/m);
+
+    return {
+        totalRamKB: totalMatch ? Number(totalMatch[1]) : undefined,
+        availRamKB: availMatch ? Number(availMatch[1]) : undefined,
+    };
 }

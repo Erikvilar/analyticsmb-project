@@ -1,7 +1,10 @@
-PACKAGE=com.project_mobile
+PACKAGE=com.instagram.android
 
 meminfo:
 	adb shell "dumpsys meminfo $(PACKAGE) | grep -E 'Native Heap|Java Heap|Graphics|TOTAL'"
+
+procmeminfo:
+	adb shell "cat /proc/meminfo"
 
 gfxinfo:
 	adb shell "dumpsys gfxinfo $(PACKAGE) | grep -E 'Total frames rendered|Janky frames|50th percentile|90th percentile|95th percentile|99th percentile'"
@@ -18,6 +21,16 @@ pid:
 
 network:
 	adb shell "ss -tun | grep ESTAB || true"
+
+app-info:
+	adb shell "echo package=$(PACKAGE); \
+	dumpsys package $(PACKAGE) | grep versionName; \
+	dumpsys package $(PACKAGE) | grep 'versionCode'; \
+	dumpsys package $(PACKAGE) | grep 'firstInstallTime'; \
+	dumpsys package $(PACKAGE) | grep 'lastUpdateTime'; \
+	dumpsys package $(PACKAGE) | grep 'minSdk'; \
+	echo APK_PATH=$$(pm path $(PACKAGE)); \
+	echo MAIN_ACTIVITY=$$(cmd package resolve-activity --brief $(PACKAGE) | tail -1)"
 
 # Requer o PID do processo (ver target "pid" acima).
 # Uso: make threads PID=1234

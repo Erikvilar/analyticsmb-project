@@ -6,5 +6,7 @@ export const COMMANDS = {
     network: "make network",
     process: "make process",
     threads: "make threads",
-    pid:"make pid"
+    pid:"make pid",
+    appinfo: "make app-info",
+    procMeminfo: "make procmeminfo"
 };

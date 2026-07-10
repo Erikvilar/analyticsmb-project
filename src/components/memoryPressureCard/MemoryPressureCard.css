@@ -33,6 +33,19 @@
     margin: 0;
 }
 
+.memory-pressure-card__bottom-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.memory-pressure-card__bottom-info__text {
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted, #8e9192)
+}
+
 .memory-pressure-card__info {
     font-size: 16px !important;
     color: var(--color-text-muted, #8e9192);
@@ -110,7 +123,148 @@
     font-weight: 500;
     color: var(--color-text-muted, #8e9192);
 }
+.skeleton-card {
+    flex: 1;
+    border: 1px solid var(--color-border, #27272a);
+    background-color: var(--color-surface, #09090b);
+    padding: 16px;
+    border-radius: var(--radius-sm, 2px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
 
+.skeleton-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.skeleton-card__title {
+    width: 90px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.skeleton-card__icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.skeleton-card__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 24px 0;
+}
+
+/* --- variante gauge --- */
+.skeleton-card__gauge-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 140px;
+}
+
+.skeleton-card__gauge {
+    width: 180px;
+    height: 130px;
+    border-radius: 90px 90px 0 0;
+    clip-path: polygon(0 100%, 0 40%, 100% 40%, 100% 100%);
+}
+
+
+
+.skeleton-card__gauge-value {
+    position: absolute;
+    bottom: 6px;
+    width: 60px;
+    height: 24px;
+    border-radius: 4px;
+}
+
+/* --- variante chart --- */
+.skeleton-card__chart {
+    width: 100%;
+    height: 140px;
+    border-radius: 8px;
+}
+
+/* --- variante text --- */
+.skeleton-card__text-lines {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skeleton-card__line {
+    height: 12px;
+    border-radius: 4px;
+}
+
+/* --- status footer --- */
+.skeleton-card__status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.skeleton-card__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.skeleton-card__threshold {
+    width: 110px;
+    height: 12px;
+    border-radius: 4px;
+}
+
+/* --- base skeleton + shimmer --- */
+.skeleton {
+    background-color: var(--color-border, #27272a);
+    position: relative;
+}
+
+.shimmer {
+    overflow: hidden;
+}
+
+.shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+            90deg,
+            transparent 0%,
+            var(--color-border-hover, rgba(255, 255, 255, 0.08)) 50%,
+            transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: shimmer-sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes shimmer-sweep {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shimmer::after {
+        animation: none;
+    }
+}
 @media (prefers-reduced-motion: reduce) {
     .memory-pressure-card__dot--critical {
         animation: none;

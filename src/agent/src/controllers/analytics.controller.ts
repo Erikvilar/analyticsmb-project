@@ -61,4 +61,14 @@ export class AnalyticsController {
             res.status(500).json({ error: "Falha ao calcular quality", details: String(err) });
         }
     }
+
+    async appInfo(req: Request, res: Response) {
+        try{
+            const data = await adb.appInfo();
+            res.json(data);
+        }catch (err){
+            res.status(500).json({ error: "Falha ao carregar informação do pacote", details: String(err) });
+
+        }
+    }
 }

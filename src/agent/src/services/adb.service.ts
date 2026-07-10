@@ -1,20 +1,31 @@
 import { COMMANDS } from "../commands/commands";
 import { TerminalService } from "./terminal.service";
-import { parseMeminfo, MeminfoResult } from "../parsers/Meminfo.parser";
-import { parseGfxinfo, GfxinfoResult } from "../parsers/Gfxinfo.parser";
+import {parseMeminfo, MeminfoResult, parseProcMeminfo} from "../parsers/Meminfo.parser";
+import { parseGfxinfo, type GfxinfoResult } from "../parsers/Gfxinfo.parser";
 import { parseCpuInfo, CpuInfoResult } from "../parsers/Cpuinfo.parser";
 import { parseBattery, BatteryResult } from "../parsers/Battery.parser";
 import { parsePid, PidResult } from "../parsers/Pid.parser";
 import {NetworkConnection, parseNetwork} from "../parsers/Network.parser";
+import {AppInfoResult, parserAppInfo} from "../parsers/AppInfo.parser";
 
 const t = new TerminalService();
 
 export class AdbService {
     async meminfo(): Promise<MeminfoResult> {
-        const raw = await t.execute(COMMANDS.meminfo);
-        return parseMeminfo(raw);
-    }
+        const [raw, procRaw] = await Promise.all([
+            t.execute(COMMANDS.meminfo),
+            t.execute(COMMANDS.procMeminfo),
+        ]);
 
+        const result = parseMeminfo(raw);
+        const { totalRamKB, availRamKB } = parseProcMeminfo(procRaw);
+
+        return {
+            ...result,
+            systemTotalRamKB: totalRamKB,
+            systemAvailRamKB: availRamKB,
+        };
+    }
     async gfxinfo(): Promise<GfxinfoResult> {
         const raw = await t.execute(COMMANDS.gfxinfo);
         return parseGfxinfo(raw);
@@ -37,5 +48,10 @@ export class AdbService {
     async network():Promise<NetworkConnection[]>{
         const raw = await t.execute(COMMANDS.network);
         return parseNetwork(raw);
+    }
+
+    async appInfo():Promise<AppInfoResult>{
+        const raw = await t.execute(COMMANDS.appinfo);
+        return parserAppInfo(raw);
     }
 }
