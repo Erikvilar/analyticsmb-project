@@ -1,0 +1,82 @@
+.filter-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+}
+
+.filter-dropdown__label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #8e9192);
+}
+
+.filter-dropdown__control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border, #27272a);
+  border-radius: var(--radius-sm, 2px);
+  background-color: #000000;
+  transition: border-color 150ms ease-in-out;
+}
+
+.filter-dropdown__control:hover {
+  border-color: var(--color-text, #ffffff);
+}
+
+.filter-dropdown__control:focus-within {
+  border-color: var(--color-text, #ffffff);
+  outline: 2px solid var(--color-text, #ffffff);
+  outline-offset: 1px;
+}
+
+.filter-dropdown__control--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.filter-dropdown__control--disabled:hover {
+  border-color: var(--color-border, #27272a);
+}
+
+/* Select nativo, "invisível", ocupando toda a área do control */
+.filter-dropdown__select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--color-text, #ffffff);
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  padding: 6px 28px 6px 8px;
+  cursor: pointer;
+}
+
+.filter-dropdown__select:disabled {
+  cursor: not-allowed;
+}
+
+.filter-dropdown__select:focus {
+  outline: none;
+}
+
+/* Deixa as options legíveis (o navegador renderiza o <option> com seu
+   próprio tema nativo — aqui garantimos contraste no dark mode) */
+.filter-dropdown__select option {
+  background-color: #09090b;
+  color: #ffffff;
+}
+
+.filter-dropdown__chevron {
+  position: absolute;
+  right: 6px;
+  font-size: 16px !important;
+  color: var(--color-text-muted, #8e9192);
+  pointer-events: none;
+}

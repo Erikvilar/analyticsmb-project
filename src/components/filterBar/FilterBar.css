@@ -1,0 +1,10 @@
+.filter-bar {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 8px 24px;
+    border-bottom: 1px solid var(--color-border, #27272a);
+    background-color: var(--color-surface, #09090b);
+    overflow-x: auto;
+    flex-shrink: 0;
+}

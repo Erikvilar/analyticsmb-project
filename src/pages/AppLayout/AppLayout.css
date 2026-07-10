@@ -1,0 +1,494 @@
+/* =========================================================
+   AppLayout — CSS puro
+   Paleta mono (preto/branco/cinza) equivalente à versão Tailwind
+   ========================================================= */
+
+/* Fontes — self-contained, não depende do index.html do projeto */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
+
+/* ---------- Reset global — garante ocupação de 100% da tela ---------- */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+/* ---------- Tipografia global — independe de breakpoint ----------
+   Fica fora de qualquer @media de propósito: legibilidade não deve
+   variar com o tamanho de tela, só o layout ao redor dela. */
+html {
+    font-size: 16px; /* base estável para toda a escala em rem/em */
+    -webkit-text-size-adjust: 100%; /* evita o iOS "auto-ajustar" o texto
+                                      e distorcer a leitura ao rotacionar */
+    text-size-adjust: 100%;
+}
+
+body {
+    background-color: #000000;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif; /* fallback caso o @import
+    do Google Fonts falhe (offline, bloqueio de rede etc.) */
+    line-height: 1.5; /* espaçamento confortável para leitura de texto corrido */
+    font-feature-settings: "kern" 1, "liga" 1; /* kerning + ligaduras do Inter */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Elementos de formulário não herdam fonte por padrão no navegador —
+   sem isso, <select>/<button>/<input> caem pra fonte do sistema (ex.:
+   Arial), destoando do resto da interface e ficando inconsistente */
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+/* Neutraliza estilos padrão de templates (ex.: #root do Vite com
+   max-width/padding/margin:auto), sem depender de editar o index.css */
+#root {
+    height: 100%;
+    width: 100%;
+    text-align: initial;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    vertical-align: middle;
+    user-select: none;
+}
+
+/* Scrollbar customizada — combina com o tema escuro */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) var(--color-surface);
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--color-surface);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--color-border-strong);
+    border-radius: 4px;
+}
+
+:root {
+    --color-bg: #000000;
+    --color-surface: #09090b;
+    --color-surface-alt: #18181b;
+    --color-border: #27272a;
+    --color-border-hover: #ffffff;
+    --color-border-strong: #444748;
+    --color-text: #ffffff;
+    --color-text-muted: #8e9192;
+    --color-text-subtle: #a1a1a6;
+    --color-text-disabled: #3f3f42;
+
+    --radius-sm: 2px;
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 200ms ease-in-out;
+}
+
+/* ---------- Layout raiz ---------- */
+.app-layout {
+    display: flex;
+    height: 100vh; /* fallback para navegadores sem suporte a dvh */
+    height: 100dvh; /* considera a barra de endereço no mobile */
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: "Inter", sans-serif;
+}
+
+/* ---------- Skip link (acessibilidade) ---------- */
+.skip-link {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link:focus {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 50;
+    width: auto;
+    height: auto;
+    clip: auto;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ---------- Overlay mobile ---------- */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 30;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    width: 256px;
+    border-right: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    padding: 16px 0;
+    flex-shrink: 0;
+    transform: translateX(-100%);
+    transition: transform var(--transition-normal);
+}
+
+.sidebar--open {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    padding: 0 16px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-logo .material-symbols-outlined {
+    font-size: 18px;
+    color: var(--color-text);
+}
+
+.sidebar-title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text);
+}
+
+.sidebar-version {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.sidebar-close-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.sidebar-close-btn:hover {
+    color: var(--color-text);
+}
+
+.sidebar-nav {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0 8px;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    color: var(--color-text-subtle);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+.nav-link--active {
+    color: var(--color-text);
+    border-left-color: #ffffff;
+    background-color: var(--color-surface-alt);
+}
+
+.nav-link--disabled {
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+}
+
+.nav-link--disabled:hover {
+    background-color: transparent;
+    color: var(--color-text-disabled);
+}
+
+.nav-link .material-symbols-outlined {
+    font-size: 20px;
+}
+
+.sidebar-footer {
+    padding: 0 8px;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-border);
+}
+
+/* ---------- Foco visível (teclado) ---------- */
+.sidebar-close-btn:focus-visible,
+.nav-link:focus-visible,
+.mobile-menu-btn:focus-visible,
+.time-range-btn:focus-visible,
+.icon-btn:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: -2px;
+}
+
+/* ---------- Área principal ---------- */
+.main-wrapper {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0; /* impede que o conteúdo estoure os 100dvh do pai */
+    overflow: hidden;
+}
+
+/* ---------- Top bar ---------- */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    flex-shrink: 0;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.mobile-menu-btn {
+    display: flex;
+    background: none;
+    border: none;
+    color: var(--color-text-subtle);
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.mobile-menu-btn:hover {
+    color: var(--color-text);
+}
+
+.mobile-menu-btn .material-symbols-outlined {
+    font-size: 22px;
+}
+
+.breadcrumb-nav {
+    min-width: 0;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    list-style: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.breadcrumb-current {
+    color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.time-range-btn {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-subtle);
+    cursor: pointer;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.time-range-btn:hover {
+    color: var(--color-text);
+    border-color: var(--color-border-strong);
+}
+
+.time-range-btn .material-symbols-outlined {
+    font-size: 16px;
+}
+
+.icon-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--color-text-subtle);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.icon-btn:hover {
+    color: var(--color-text);
+    background-color: var(--color-surface-alt);
+}
+
+.icon-btn .material-symbols-outlined {
+    font-size: 20px;
+}
+
+/* ---------- Conteúdo ---------- */
+.main-content {
+    flex: 1;
+    min-height: 0; /* essencial: só assim o overflow-y:auto rola aqui dentro
+                    em vez de empurrar a página inteira para além da tela */
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: var(--color-bg);
+}
+
+.main-content:focus {
+    outline: none;
+}
+
+/* Respeita preferência do usuário por menos animação */
+@media (prefers-reduced-motion: reduce) {
+    .sidebar,
+    .nav-link,
+    .mobile-menu-btn,
+    .icon-btn,
+    .time-range-btn {
+        transition: none !important;
+    }
+}
+
+/* =========================================================
+   Responsividade — a partir de 768px (equivalente ao "md:")
+   Este bloco é o que torna a sidebar fixa/visível no desktop.
+   Sem ele, a sidebar fica sempre transform:translateX(-100%)
+   (escondida), pois só o JS do drawer mobile a exibe.
+   ========================================================= */
+@media (min-width: 768px) {
+    .sidebar-overlay {
+        display: none;
+    }
+
+    .sidebar {
+        position: static;
+        transform: none;
+    }
+
+    .sidebar-close-btn {
+        display: none !important;
+    }
+
+    .mobile-menu-btn {
+        display: none;
+    }
+
+    .time-range-btn {
+        display: flex;
+    }
+
+    .topbar {
+        padding: 0 24px;
+    }
+}

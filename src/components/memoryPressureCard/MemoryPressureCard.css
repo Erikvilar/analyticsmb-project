@@ -1,0 +1,118 @@
+.memory-pressure-card {
+    grid-column: span 4;
+    flex: 1;
+    border: 1px solid var(--color-border, #27272a);
+    background-color: var(--color-surface, #09090b);
+    padding: 16px;
+    border-radius: var(--radius-sm, 2px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 500ms ease-in-out;
+}
+
+.memory-pressure-card:hover {
+    border-color: var(--color-border-hover);
+    transition: border-color 500ms ease-in-out;
+}
+
+.memory-pressure-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.memory-pressure-card__title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted, #8e9192);
+    margin: 0;
+}
+
+.memory-pressure-card__info {
+    font-size: 16px !important;
+    color: var(--color-text-muted, #8e9192);
+}
+
+.memory-pressure-card__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 24px 0;
+}
+
+/* Empilha o Gauge do MUI-X com o valor numérico central customizado */
+.memory-pressure-card__gauge-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.memory-pressure-card__value {
+    position: absolute;
+    bottom: 6px;
+    top:45px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    line-height: 40px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text, #ffffff);
+    pointer-events: none;
+}
+
+.memory-pressure-card__unit {
+    font-size: 20px;
+    color: var(--color-text-muted, #8e9192);
+}
+
+.memory-pressure-card__status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.memory-pressure-card__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-text-muted, #8e9192);
+}
+
+.memory-pressure-card__dot--critical {
+    background-color: #868585;
+    animation: memory-pressure-pulse 2s ease-in-out infinite;
+}
+
+@keyframes memory-pressure-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.memory-pressure-card__threshold {
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted, #8e9192);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .memory-pressure-card__dot--critical {
+        animation: none;
+    }
+}

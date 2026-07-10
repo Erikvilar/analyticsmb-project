@@ -1,0 +1,134 @@
+.quality-chart-card {
+    grid-column: span 4;
+    flex: 1;
+
+    padding: 16px;
+    border: 1px solid var(--color-border, #27272a);
+    background-color: var(--color-surface, #09090b);
+    border-radius: var(--radius-sm, 2px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 500ms ease-in-out;
+}
+
+.quality-chart-card:hover {
+    border-color: var(--color-border-hover);
+    transition: border-color 500ms ease-in-out;
+}
+
+.quality-chart-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.quality-chart-card__title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted, #8e9192);
+    margin: 0;
+}
+
+.quality-chart-card__info {
+    font-size: 16px !important;
+    color: var(--color-text-muted, #8e9192);
+}
+
+.quality-chart-card__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 24px 0;
+}
+
+/* Empilha o Gauge do MUI-X com o valor numérico central customizado */
+.quality-chart-card__gauge-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quality-chart-card__value {
+    position: absolute;
+    bottom: 6px;
+    top:60px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    line-height: 40px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text, #ffffff);
+    pointer-events: none;
+}
+.quality-chart-card__description {
+    position: absolute;
+    bottom: 6px;
+    top:120px;
+    left: -2px;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    line-height: 40px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-text, #ffffff);
+    pointer-events: none;
+}
+
+.quality-chart-card__unit {
+    font-size: 20px;
+    color: var(--color-text-muted, #8e9192);
+}
+
+.quality-chart-card__status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.quality-chart-card__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-text-muted, #8e9192);
+}
+
+.quality-chart-card__dot--critical {
+    background-color: #868585;
+    animation: quality-chart-pulse 2s ease-in-out infinite;
+}
+
+@keyframes quality-chart-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.quality-chart-card__threshold {
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted, #8e9192);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .quality-chart-card__dot--critical {
+        animation: none;
+    }
+}
