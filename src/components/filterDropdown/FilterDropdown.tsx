@@ -10,7 +10,7 @@ type FilterDropdownProps = {
   label: string;
   value: string;
   options: FilterOption[];
-  onChange: (value: string) => void;
+  onChange: (value: string) => string;
   disabled?: boolean;
 };
 
@@ -64,4 +64,4 @@ export function FilterDropdown({
   );
 }
 
-export default FilterDropdown;
+

@@ -1,61 +1,122 @@
-.cpu-card{
-    width:100%;
-    padding:12px 16px;
-    border-radius:10px;
+.cpu-card {
+    grid-column: span 4;
+    flex: 1;
+
+    padding: 16px;
+    border: 1px solid var(--color-border, #27272a);
+    border-radius: var(--radius-sm, 2px);
     background-color: var(--color-surface, #09090b);
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+    overflow: hidden;
+
+    transition: border-color 500ms ease-in-out;
 }
 
-.cpu-card__header{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:15px;
-    font-weight:600;
+.cpu-card:hover {
+    border-color: var(--color-border-hover);
 }
 
-.cpu-card__header .material-symbols-outlined{
-    font-size:20px;
+
+.cpu-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin-bottom: 24px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+
+    color: var(--color-text-muted, #8e9192);
 }
 
-.cpu-card__content{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px 16px;
+
+.cpu-card__header .material-symbols-outlined {
+    font-size: 20px;
 }
 
-.cpu-card__metric{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    min-width:0;
+
+/* área interna que cresce preenchendo o card */
+.cpu-card__content {
+    grid-template-rows: repeat(2, auto);
+    align-content: center;
 }
 
-.cpu-card__metric-icon{
-    width:30px;
-    height:30px;
-    border-radius:8px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:rgba(255,255,255,.05);
-    flex-shrink:0;
+
+/* cada métrica vira um bloco */
+.cpu-card__metric {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 12px;
+
+    min-width: 0;
 }
 
-.cpu-card__metric-icon .material-symbols-outlined{
-    font-size:18px;
+
+.cpu-card__metric-icon {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,.05);
+
+    flex-shrink: 0;
 }
 
-.cpu-card__metric-label{
-    font-size:11px;
-    opacity:.65;
-    line-height:1.1;
+
+.cpu-card__metric-icon .material-symbols-outlined {
+    font-size: 20px;
 }
 
-.cpu-card__metric-value{
-    font-size:14px;
-    font-weight:600;
-    line-height:1.2;
+
+.cpu-card__metric-info {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.cpu-card__metric-label {
+    font-size: 12px;
+    opacity: .65;
+}
+
+.cpu-card__metric-value {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+
+/* Responsivo */
+@media(max-width:900px){
+
+    .cpu-card {
+        grid-column: span 4;
+    }
+
+    .cpu-card__content {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+
+@media(max-width:600px){
+
+    .cpu-card__content {
+        grid-template-columns: 1fr;
+    }
+
 }

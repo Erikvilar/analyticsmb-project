@@ -37,7 +37,7 @@ const HEALTH_MAP: Record<string, string> = {
 export function parseBattery(raw: string): BatteryResult {
     const result: BatteryResult = {};
 
-    const level = raw.match(/^\s*level:\s*(\d+)/m);
+    const level = raw.match(www);
     if (level) result.level = Number(level[1]);
 
     const temperature = raw.match(/^\s*temperature:\s*(\d+)/m);

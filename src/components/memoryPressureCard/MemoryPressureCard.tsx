@@ -41,19 +41,18 @@ function GaugePointer() {
 
 export function MemoryPressureCard({isLoading}:{isLoading:boolean}) {
 
-const {data,
+const {
     memoryPressure,
     memoryPressureThreshold,
     isMemoryPressureCritical,
     totalRamDeviceGB,
-    availRamDeviceGB,
-    usedRamDeviceGB,
+
 
     // heap nativo (MB)
     heapSizeMB,
     heapAllocMB,
     heapFreeMB,
-    heapUsagePercent,
+
 } = useMemoryData();
 
 
@@ -72,6 +71,7 @@ const {data,
             </div>
 
             <div className="memory-pressure-card__body">
+
                 <div className="memory-pressure-card__gauge-wrap">
                     <GaugeContainer
                         width={200}
@@ -115,25 +115,26 @@ const {data,
                     <span className="memory-pressure-card__threshold">
             Limite &gt; {memoryPressureThreshold}%
           </span>
-
+                    <span className="memory-pressure-card__bottom-info__text"> === MEMORIA TOTAL
+                        <span style={{paddingLeft:5}} ></span>  {totalRamDeviceGB} GB
+          </span>
 
                 </div>
-
-            </div>
-            <div className={"memory-pressure-card__bottom-info"}>
-            <span className="memory-pressure-card__bottom-info__text"> Total ram:
-            {totalRamDeviceGB} GB
-          </span>
                 <span className="memory-pressure-card__bottom-info__text">
-                Heap:
+                Heap reservada:
                     {heapSizeMB} MB
           </span>
+            </div>
+            <div className={"memory-pressure-card__bottom-info"}>
+
+
             <span className="memory-pressure-card__bottom-info__text">
-                Heap livre:
+                Livre:
             {heapFreeMB} MB
           </span>
             <span className="memory-pressure-card__bottom-info__text">
-                Heap consumida:
+
+                Consumida:
                 {heapAllocMB} MB
           </span>
             </div>

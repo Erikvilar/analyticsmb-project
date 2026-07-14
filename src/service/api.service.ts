@@ -18,15 +18,22 @@ const endpoints ={
     getNetworkInfo: `${url}networkinfo`,
     getQualityInfo: `${url}qualityinfo`,
     getCpuInfo: `${url}cpuinfo`,
+    getProcessesInfo:`${url}processesinfo`,
+    postPrompt: `${url}prompt`,
+
 }
 
+const getPackage = () => {
+   const packageName =  localStorage.getItem("process")
+    return JSON.parse(packageName)
+}
 
 const apiService ={
 
     async getMemoryInfo(){
         try {
 
-            const response = await axios.get(endpoints.getMemoryInfo)
+            const response = await axios.get(endpoints.getMemoryInfo+"?package="+getPackage());
             return {
                 success: true,
                 status: response.status,
@@ -56,7 +63,7 @@ const apiService ={
     async getGfxInfo(){
         try {
 
-            const response = await axios.get(endpoints.getGfxinfo)
+            const response = await axios.get(endpoints.getGfxinfo+"?package="+getPackage())
             return {
                 success: true,
                 status: response.status,
@@ -86,7 +93,7 @@ const apiService ={
     async getBatteryInfo(){
         try {
 
-            const response = await axios.get(endpoints.getBatteryinfo)
+            const response = await axios.get(endpoints.getBatteryinfo+"?package="+getPackage())
             return {
                 success: true,
                 status: response.status,
@@ -116,7 +123,7 @@ const apiService ={
     async getCpuInfo(){
         try {
 
-            const response = await axios.get(endpoints.getCpuInfo)
+            const response = await axios.get(endpoints.getCpuInfo+"?package="+getPackage())
             return {
                 success: true,
                 status: response.status,
@@ -146,7 +153,7 @@ const apiService ={
     async getPid(){
         try {
 
-            const response = await axios.get(endpoints.getPidInfo)
+            const response = await axios.get(endpoints.getPidInfo+"?package="+getPackage())
             return {
                 success: true,
                 status: response.status,
@@ -176,7 +183,7 @@ const apiService ={
     async getNetworkInfo(){
         try {
 
-            const response = await axios.get(endpoints.getNetworkInfo)
+            const response = await axios.get(endpoints.getNetworkInfo+"?package="+getPackage())
             return {
                 success: true,
                 status: response.status,
@@ -206,7 +213,7 @@ const apiService ={
     async getAppInfo(){
         try {
 
-            const response = await axios.get(endpoints.getAppInfo)
+            const response = await axios.get(endpoints.getAppInfo+"?package="+getPackage())
             return {
                 success: true,
                 status: response.status,
@@ -236,7 +243,7 @@ const apiService ={
     async getQualityInfo(){
         try {
 
-            const response = await axios.get(endpoints.getQualityInfo)
+            const response = await axios.get(endpoints.getQualityInfo+"?package="+getPackage())
             return {
                 success: true,
                 status: response.status,
@@ -261,7 +268,70 @@ const apiService ={
                 data: null,
             };
         }
-    }
+    },
+
+    async getProcessesInfo(){
+        try {
+
+            const response = await axios.get(endpoints.getProcessesInfo)
+
+            return {
+                success: true,
+                status: response.status,
+                data: response.data,
+
+            };
+
+        } catch (error: any) {
+            if (error.response) {
+                return {
+                    success: false,
+                    status: error.response.status,
+                    message: error.response.data?.message,
+                    data: error.response.data || null,
+                };
+            }
+
+            return {
+                success: false,
+                status: 0,
+                message: error.message || "Erro de conexão com o servidor",
+                data: null,
+            };
+        }
+
+    },
+
+    async postInputPrompt(prompt:string){
+        try {
+
+            const response = await axios.post(endpoints.postPrompt, {prompt:prompt, packageName:getPackage()})
+            console.log(response)
+            return {
+                success: true,
+                status: response.status,
+                data: response.data,
+
+            };
+
+        } catch (error: any) {
+            if (error.response) {
+                return {
+                    success: false,
+                    status: error.response.status,
+                    message: error.response.data?.message,
+                    data: error.response.data || null,
+                };
+            }
+
+            return {
+                success: false,
+                status: 0,
+                message: error.message || "Erro de conexão com o servidor",
+                data: null,
+            };
+        }
+   }
 
 }
 

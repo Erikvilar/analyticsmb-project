@@ -1,4 +1,4 @@
-PACKAGE=com.instagram.android
+PACKAGE=com.whatsapp
 
 meminfo:
 	adb shell "dumpsys meminfo $(PACKAGE) | grep -E 'Native Heap|Java Heap|Graphics|TOTAL'"
@@ -36,3 +36,23 @@ app-info:
 # Uso: make threads PID=1234
 threads:
 	adb shell "top -H -n 1 -p $(PID)"
+
+#-------- essenciais
+
+generate:
+	node scripts/generate.js $(type) $(name)
+
+hook:
+	$(MAKE) generate type=hook name=$(name)
+
+service:
+	$(MAKE) generate type=service name=$(name)
+
+parser:
+	$(MAKE) generate type=parser name=$(name)
+
+component:
+	$(MAKE) generate type=component name=$(name)
+
+page:
+	$(MAKE) generate type=page name=$(name)

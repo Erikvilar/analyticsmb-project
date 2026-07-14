@@ -37,7 +37,7 @@ export interface MeminfoResult {
     systemAvailRamKB?: number;
 }
 const MEMORY_PRESSURE_THRESHOLD = 92;
-const REFRESH_INTERVAL_MS = 1000;
+const REFRESH_INTERVAL_MS = 10000;
 
 
 const KB_TO_MB = 1024;

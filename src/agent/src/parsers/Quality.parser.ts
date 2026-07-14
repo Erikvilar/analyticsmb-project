@@ -1,6 +1,5 @@
-import { AdbService } from "./adb.service";
-import { MeminfoResult } from "../parsers/Meminfo.parser";
-import { GfxinfoResult } from "../parsers/Gfxinfo.parser";
+import {MeminfoResult, parseMeminfo} from "./Meminfo.parser";
+import {GfxinfoResult, parseGfxinfo} from "./Gfxinfo.parser";
 
 export interface QualityBreakdown {
     fpsScore: number;
@@ -97,34 +96,28 @@ function labelFor(score: number): string {
     return "Critica";
 }
 
-export class QualityService {
-    private adb = new AdbService();
 
-    async getQuality(): Promise<QualityResult> {
-        const [meminfo, gfxinfo] = await Promise.all([
-            this.adb.meminfo(),
-            this.adb.gfxinfo(),
-        ]);
+export function qualityParser (gfxinfo,meminfo) {
+    const _gfxinfo = parseGfxinfo(gfxinfo);
+    const _meminfo = parseMeminfo(meminfo)
+    const fpsScore = scoreFps(_gfxinfo);
+    const heapScore = scoreHeap(_meminfo);
+    const score = Number((fpsScore * WEIGHT_FPS + heapScore * WEIGHT_HEAP).toFixed(1));
 
-        const fpsScore = scoreFps(gfxinfo);
-        const heapScore = scoreHeap(meminfo);
-        const score = Number((fpsScore * WEIGHT_FPS + heapScore * WEIGHT_HEAP).toFixed(1));
-
-        return {
-            score,
-            label: labelFor(score),
-            breakdown: {
-                fpsScore: Number(fpsScore.toFixed(1)),
-                heapScore: Number(heapScore.toFixed(1)),
-            },
-            metrics: {
-                fps: calculateFps(gfxinfo),
-                jankyPercent: gfxinfo.jankyFrames?.percent,
-                p90Ms: gfxinfo.percentiles?.p90,
-                p99Ms: gfxinfo.percentiles?.p99,
-                totalPssKB: meminfo.totalPssKB,
-            },
-            raw: { meminfo, gfxinfo },
-        };
+    return {
+        score,
+        label: labelFor(score),
+        breakdown: {
+            fpsScore: Number(fpsScore.toFixed(1)),
+            heapScore: Number(heapScore.toFixed(1)),
+        },
+        metrics: {
+            fps: calculateFps(_gfxinfo),
+            jankyPercent: _gfxinfo.jankyFrames?.percent,
+            p90Ms: _gfxinfo.percentiles?.p90,
+            p99Ms: _gfxinfo.percentiles?.p99,
+            totalPssKB: _meminfo.totalPssKB,
+        },
+        raw: {_meminfo, _gfxinfo},
     }
 }

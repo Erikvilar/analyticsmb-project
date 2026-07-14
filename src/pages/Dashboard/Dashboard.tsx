@@ -4,6 +4,7 @@ import "./Dashboard.css"
 import QualityCard from "../../components/qualityCard/QualityCard.tsx";
 import {useLayoutContext} from "../../hooks/useLayoutContext.ts";
 import CpuCard from "../../components/cpuCard/CpuCard.tsx";
+import Terminalcard from "../../components/Terminalcard/Terminalcard.tsx";
 export default function Dashboard  () {
 
     const { isLoading } = useLayoutContext();
@@ -14,11 +15,15 @@ export default function Dashboard  () {
             <FilterBar/>
 
             <div className="row-chart">
+                <CpuCard/>
+
                 <MemoryPressureCard isLoading={isLoading}/>
 
                 <QualityCard />
             </div>
-            <CpuCard/>
+
+                <Terminalcard/>
+
         </div>
     )
 }

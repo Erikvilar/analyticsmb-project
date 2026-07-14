@@ -1,6 +1,7 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { FilterDropdown, type FilterOption } from "./../filterDropdown/FilterDropdown.tsx";
 import "./FilterBar.css";
+import useFilterBar from "../../hooks/useFilterBar.ts";
 
 // ---------- Mock data ----------
 const PACKAGE_OPTIONS: FilterOption[] = [
@@ -9,11 +10,7 @@ const PACKAGE_OPTIONS: FilterOption[] = [
     { label: "com.analytics.mb.staging", value: "com.analytics.mb.staging" },
 ];
 
-const PROCESS_OPTIONS: FilterOption[] = [
-    { label: "Main", value: "main" },
-    { label: "com.analytics.mb:push", value: "push" },
-    { label: "com.analytics.mb:sync", value: "sync" },
-];
+
 
 const THREAD_OPTIONS: FilterOption[] = [
     { label: "All Threads", value: "all" },
@@ -31,9 +28,25 @@ const INTERVAL_OPTIONS: FilterOption[] = [
 
 export function FilterBar() {
     const [pkg, setPkg] = useState(PACKAGE_OPTIONS[0].value);
-    const [proc, setProc] = useState(PROCESS_OPTIONS[0].value);
+
+
     const [thread, setThread] = useState(THREAD_OPTIONS[0].value);
     const [interval, setInterval] = useState(INTERVAL_OPTIONS[0].value);
+    const {processes} = useFilterBar();
+
+    const processesMap: FilterOption[] = processes.map(p => ({
+        label: p,
+        value: p
+    }));
+    const [proc, setProc] = useState();
+    useEffect(() => {
+        const process = JSON.stringify(localStorage.getItem('process'));
+       setProc(process)
+    },[])
+    const handleProcess = (e:any) => {
+        localStorage.setItem("process", JSON.stringify(e));
+        setProc(e);
+    }
 
     return (
         <div className="filter-bar" role="toolbar" aria-label="Filtros de memória">
@@ -46,8 +59,8 @@ export function FilterBar() {
             <FilterDropdown
                 label="Process"
                 value={proc}
-                options={PROCESS_OPTIONS}
-                onChange={setProc}
+                options={processesMap}
+                onChange={handleProcess}
             />
             <FilterDropdown
                 label="Thread"

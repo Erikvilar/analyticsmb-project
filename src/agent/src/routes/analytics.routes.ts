@@ -15,6 +15,7 @@ import {AnalyticsController} from "../controllers/analytics.controller";
     r.get('/cpuinfo', (req, res) => c.cpu(req, res))
     r.get('/batteryinfo', (req, res) => c.battery(req, res))
     r.get('/appinfo', (req, res) => c.appInfo(req, res))
-
+    r.post('/prompt', (req, res) => c.promptRequest(req, res))
+    r.get('/processesinfo', (req, res) => c.processesInfo(req, res))
 
     export default r;

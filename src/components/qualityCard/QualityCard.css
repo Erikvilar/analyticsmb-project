@@ -10,6 +10,7 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
+
     transition: border-color 500ms ease-in-out;
 }
 

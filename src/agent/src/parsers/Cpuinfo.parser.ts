@@ -21,7 +21,7 @@ export function parseCpuInfo(raw: string): CpuInfoResult {
     const rowRegex = /^\s*([\d.]+)%\s+(\d+)\/([^:]+):\s+([\d.]+)%\s+user\s+\+\s+([\d.]+)%\s+kernel(?:\s*\/\s*faults:\s*(\d+)\s*minor(?:\s+(\d+)\s*major)?)?/;
 
     const rows: CpuInfoRow[] = [];
-
+    console.log(raw)
     for (const line of raw.split(/\r?\n/)) {
         const m = line.match(rowRegex);
         if (!m) continue;

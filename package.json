@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/agent/src/server.ts",
-    "start": "vite",
+    "server": "tsx watch src/agent/src/server.ts",
+    "site": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

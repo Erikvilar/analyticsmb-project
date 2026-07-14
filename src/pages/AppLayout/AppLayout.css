@@ -109,7 +109,8 @@ textarea {
 .app-layout {
     display: flex;
     height: 100vh; /* fallback para navegadores sem suporte a dvh */
-    height: 100dvh; /* considera a barra de endereço no mobile */
+    padding: 0 12px;
+    margin-bottom: 20px;
     width: 100%;
     overflow: hidden;
     background-color: var(--color-bg);
@@ -448,7 +449,35 @@ textarea {
 .main-content:focus {
     outline: none;
 }
+/* Desktop Full HD / 2K */
+@media (min-width:1601px) {
 
+    .sidebar {
+        width:240px;
+        padding:14px 0;
+    }
+
+    .sidebar-header {
+        padding:0 16px;
+        margin-bottom:28px;
+    }
+
+    .sidebar-logo {
+        width:32px;
+        height:32px;
+    }
+
+
+    .topbar {
+        height:60px;
+        padding:0 24px;
+    }
+
+
+    .main-content {
+        padding:16px;
+    }
+}
 /* Respeita preferência do usuário por menos animação */
 @media (prefers-reduced-motion: reduce) {
     .sidebar,
@@ -490,5 +519,86 @@ textarea {
 
     .topbar {
         padding: 0 24px;
+    }
+}
+/* =========================================================
+   Notebook (1366x768 / 1440x900)
+   ========================================================= */
+@media (min-width: 768px) and (max-width: 1600px) {
+
+    /* Sidebar */
+    .sidebar {
+        width: 220px;
+        padding: 12px 0;
+    }
+
+    .sidebar-header {
+        padding: 0 12px;
+        margin-bottom: 20px;
+    }
+
+    .sidebar-logo {
+        width: 28px;
+        height: 28px;
+    }
+
+    .sidebar-logo .material-symbols-outlined {
+        font-size: 16px;
+    }
+
+    .sidebar-title {
+        font-size: 14px;
+    }
+
+    .sidebar-version {
+        font-size: 9px;
+    }
+
+    .nav-list {
+        gap: 2px;
+    }
+
+    .nav-link {
+        padding: 7px 10px;
+        gap: 10px;
+        font-size: 12px;
+    }
+
+    .nav-link .material-symbols-outlined {
+        font-size: 18px;
+    }
+
+    /* Topbar */
+    .topbar {
+        height: 52px;
+        padding: 0 18px;
+    }
+
+    .breadcrumb {
+        font-size: 11px;
+    }
+
+    .time-range-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .time-range-btn .material-symbols-outlined {
+        font-size: 15px;
+    }
+
+    .icon-btn {
+        width: 28px;
+        height: 28px;
+    }
+
+    .icon-btn .material-symbols-outlined {
+        font-size: 18px;
+    }
+
+    /* Conteúdo */
+    .main-content {
+        padding: 12px;
+        height: 100vh;
     }
 }

@@ -1,4 +1,39 @@
 .row-chart {
     display: flex;
+    gap: 16px;
+    height: 420px;
 
+}
+
+
+/* Telas grandes até Full HD */
+@media (max-width: 1920px) {
+    .row-chart {
+        height: 380px;
+    }
+}
+
+
+/* Monitores menores / notebooks grandes */
+@media (max-width: 1563px) {
+    .row-chart {
+        height: 30%;
+    }
+}
+
+
+/* Notebook 1366 */
+@media (max-width: 1400px) {
+    .row-chart {
+        height: 280px;
+    }
+}
+
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .row-chart {
+        height: auto;
+        flex-direction: column;
+    }
 }

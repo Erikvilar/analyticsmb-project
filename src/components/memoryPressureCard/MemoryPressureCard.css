@@ -3,13 +3,15 @@
     flex: 1;
     border: 1px solid var(--color-border, #27272a);
     background-color: var(--color-surface, #09090b);
-    padding: 16px;
     border-radius: var(--radius-sm, 2px);
+
     display: flex;
     flex-direction: column;
     position: relative;
+    padding: var(--card-padding);
     overflow: hidden;
     transition: border-color 500ms ease-in-out;
+
 }
 
 .memory-pressure-card:hover {
@@ -22,6 +24,7 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 32px;
+
 }
 
 .memory-pressure-card__title {
@@ -31,12 +34,14 @@
     text-transform: uppercase;
     color: var(--color-text-muted, #8e9192);
     margin: 0;
+
 }
 
 .memory-pressure-card__bottom-info{
     display: flex;
     justify-content: space-between;
     align-items: center;
+
 
 }
 .memory-pressure-card__bottom-info__text {
@@ -57,6 +62,7 @@
     align-items: center;
     justify-content: center;
     flex: 1;
+
     padding: 24px 0;
 }
 
@@ -72,6 +78,7 @@
     position: absolute;
     bottom: 6px;
     top:45px;
+
     left: 0;
     width: 100%;
     text-align: center;
@@ -85,6 +92,7 @@
 
 .memory-pressure-card__unit {
     font-size: 20px;
+
     color: var(--color-text-muted, #8e9192);
 }
 
@@ -268,5 +276,139 @@
 @media (prefers-reduced-motion: reduce) {
     .memory-pressure-card__dot--critical {
         animation: none;
+    }
+}
+/* Notebook (1366x768, 1440x900...) */
+/* Notebook Full HD / 1600x900 / 1440x900 */
+@media (max-width: 1440px) {
+
+    :root {
+        --card-height: 200px;
+        --card-padding: 12px;
+    }
+
+    .memory-pressure-card__header {
+        margin-bottom: 18px;
+    }
+
+    .memory-pressure-card__title {
+        font-size: 9px;
+    }
+
+    .memory-pressure-card__info {
+        font-size: 14px !important;
+    }
+
+    .memory-pressure-card__body {
+        padding: 10px 0;
+    }
+
+    .memory-pressure-card__gauge-wrap {
+        transform: scale(.86);
+    }
+
+    .memory-pressure-card__value {
+        top: 38px;
+        font-size: 22px;
+        line-height: 28px;
+    }
+
+    .memory-pressure-card__unit {
+        font-size: 15px;
+    }
+
+    .memory-pressure-card__threshold,
+    .memory-pressure-card__bottom-info__text {
+        font-size: 11px;
+    }
+
+    .memory-pressure-card__dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .skeleton-card {
+        padding: 12px;
+    }
+
+    .skeleton-card__header {
+        margin-bottom: 18px;
+    }
+
+    .skeleton-card__gauge-wrap {
+        width: 170px;
+        height: 110px;
+    }
+
+    .skeleton-card__gauge {
+        width: 150px;
+        height: 100px;
+    }
+
+    .skeleton-card__chart {
+        height: 110px;
+    }
+}
+
+/* Notebook 1366x768 */
+@media (max-width: 1280px) {
+
+    :root {
+        --card-height: 175px;
+        --card-padding: 10px;
+    }
+
+    .memory-pressure-card__header {
+        margin-bottom: 12px;
+    }
+
+    .memory-pressure-card__body {
+        padding: 6px 0;
+    }
+
+    .memory-pressure-card__gauge-wrap {
+        transform: scale(.74);
+    }
+
+    .memory-pressure-card__value {
+        top: 34px;
+        font-size: 19px;
+        line-height: 24px;
+    }
+
+    .memory-pressure-card__unit {
+        font-size: 12px;
+    }
+
+    .memory-pressure-card__threshold,
+    .memory-pressure-card__bottom-info__text {
+        font-size: 10px;
+    }
+
+    .memory-pressure-card__dot {
+        width: 5px;
+        height: 5px;
+    }
+
+    .skeleton-card {
+        padding: 10px;
+    }
+
+    .skeleton-card__header {
+        margin-bottom: 12px;
+    }
+
+    .skeleton-card__gauge-wrap {
+        width: 150px;
+        height: 100px;
+    }
+
+    .skeleton-card__gauge {
+        width: 130px;
+        height: 90px;
+    }
+
+    .skeleton-card__chart {
+        height: 90px;
     }
 }
