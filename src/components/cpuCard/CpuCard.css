@@ -2,70 +2,70 @@
     grid-column: span 4;
     flex: 1;
 
-    padding: 16px;
+    padding: 8px 10px;
+
     border: 1px solid var(--color-border, #27272a);
     border-radius: var(--radius-sm, 2px);
-    background-color: var(--color-surface, #09090b);
+    background: var(--color-surface, #09090b);
 
     display: flex;
     flex-direction: column;
 
-    position: relative;
     overflow: hidden;
-
-    transition: border-color 500ms ease-in-out;
+    transition: border-color .3s ease;
 }
 
 .cpu-card:hover {
     border-color: var(--color-border-hover);
 }
 
+/* HEADER */
 
 .cpu-card__header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
 
-    margin-bottom: 24px;
+    margin-bottom: 6px;
 
-    font-size: 10px;
+    font-size: 8px;
     font-weight: 700;
     letter-spacing: .08em;
     text-transform: uppercase;
 
-    color: var(--color-text-muted, #8e9192);
+    color: var(--color-text-muted);
 }
-
 
 .cpu-card__header .material-symbols-outlined {
-    font-size: 20px;
+    font-size: 14px;
 }
 
+/* CONTENT */
 
-/* área interna que cresce preenchendo o card */
 .cpu-card__content {
-    grid-template-rows: repeat(2, auto);
-    align-content: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+
+    flex: 1;
 }
 
-
-/* cada métrica vira um bloco */
 .cpu-card__metric {
+    flex: 1;
+
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-
-    gap: 12px;
+    gap: 6px;
 
     min-width: 0;
 }
 
-
 .cpu-card__metric-icon {
-    width: 36px;
-    height: 36px;
+    width: 22px;
+    height: 22px;
 
-    border-radius: 8px;
+    border-radius: 4px;
 
     display: flex;
     align-items: center;
@@ -76,47 +76,171 @@
     flex-shrink: 0;
 }
 
-
 .cpu-card__metric-icon .material-symbols-outlined {
-    font-size: 20px;
+    font-size: 10px;
 }
-
 
 .cpu-card__metric-info {
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
-
 
 .cpu-card__metric-label {
     font-size: 12px;
-    opacity: .65;
+    line-height: 1;
+    color: var(--color-text-muted);
+    white-space: nowrap;
 }
 
 .cpu-card__metric-value {
-    font-size: 13px;
-    font-weight: 600;
+    margin-top: 1px;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+
+    color: var(--color-text);
+    white-space: nowrap;
 }
 
+/* =========================================
+   1600px
+========================================= */
 
+@media (max-width:1600px){
 
-/* Responsivo */
-@media(max-width:900px){
-
-    .cpu-card {
-        grid-column: span 4;
+    .cpu-card{
+        padding:14px;
     }
 
-    .cpu-card__content {
-        grid-template-columns: repeat(2,1fr);
+    .cpu-card__header{
+        margin-bottom:14px;
+        font-size:9px;
     }
+
+    .cpu-card__header .material-symbols-outlined{
+        font-size:16px;
+    }
+
+    .cpu-card__content{
+        gap:14px;
+    }
+
+    .cpu-card__metric{
+        gap:8px;
+    }
+
+    .cpu-card__metric-icon{
+        width:32px;
+        height:32px;
+    }
+
+    .cpu-card__metric-icon .material-symbols-outlined{
+        font-size:18px;
+    }
+
+    .cpu-card__metric-label{
+        font-size:10px;
+    }
+
+    .cpu-card__metric-value{
+        font-size:12px;
+    }
+
 }
 
+/* =========================================
+   1440px
+========================================= */
 
-@media(max-width:600px){
+@media (max-width:1440px){
 
-    .cpu-card__content {
-        grid-template-columns: 1fr;
+    .cpu-card{
+        padding:12px;
+    }
+
+    .cpu-card__header{
+        margin-bottom:12px;
+        font-size:8px;
+    }
+
+    .cpu-card__header .material-symbols-outlined{
+        font-size:15px;
+    }
+
+    .cpu-card__content{
+        gap:10px;
+    }
+
+    .cpu-card__metric{
+        gap:6px;
+    }
+
+    .cpu-card__metric-icon{
+        width:28px;
+        height:28px;
+        border-radius:6px;
+    }
+
+    .cpu-card__metric-icon .material-symbols-outlined{
+        font-size:16px;
+    }
+
+    .cpu-card__metric-label{
+        font-size:9px;
+    }
+
+    .cpu-card__metric-value{
+        font-size:11px;
     }
 
 }
+
+/* =========================================
+   1280px
+========================================= */
+
+@media (max-width:1280px){
+
+    .cpu-card{
+        padding:10px;
+    }
+
+    .cpu-card__header{
+        margin-bottom:10px;
+        font-size:8px;
+    }
+
+    .cpu-card__header .material-symbols-outlined{
+        font-size:14px;
+    }
+
+    .cpu-card__content{
+        gap:8px;
+    }
+
+    .cpu-card__metric{
+        gap:5px;
+    }
+
+    .cpu-card__metric-icon{
+        width:24px;
+        height:24px;
+        border-radius:5px;
+    }
+
+    .cpu-card__metric-icon .material-symbols-outlined{
+        font-size:14px;
+    }
+
+    .cpu-card__metric-label{
+        font-size:8px;
+    }
+
+    .cpu-card__metric-value{
+        font-size:10px;
+    }
+
+}
+

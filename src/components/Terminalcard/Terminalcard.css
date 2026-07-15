@@ -1,8 +1,9 @@
 .terminal-card {
     flex: 1;
     padding: 12px 10px;
-    min-height: 365px;
-    max-height: 365px;
+    height: 325px;
+    width: 100%;
+    overflow: auto;
     display: flex;
     grid-column: span 4;
     border:1px solid var(--color-border,#27272a);
@@ -119,7 +120,10 @@
     margin-right:8px;
 
 }
-
+.terminal-card__line--table {
+    white-space: pre;
+    overflow-x: visible;
+}
 
 .terminal-card__line--success {
     color:#4ade80;

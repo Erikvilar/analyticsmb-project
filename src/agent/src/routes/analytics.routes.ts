@@ -17,5 +17,11 @@ import {AnalyticsController} from "../controllers/analytics.controller";
     r.get('/appinfo', (req, res) => c.appInfo(req, res))
     r.post('/prompt', (req, res) => c.promptRequest(req, res))
     r.get('/processesinfo', (req, res) => c.processesInfo(req, res))
-
+    r.get('/realm/access', (req, res) => c.realmAccess(req, res))
+    r.get('/realm/schema', (req, res) => c.realmSchema(req, res))
+    r.get('/realm/table', (req, res) => c.realmTable(req, res))
+    r.get('/realm/refresh', (req, res) => c.realmRefresh(req, res))
+    r.get('/realm/discover', (req, res) => c.realmDiscover(req, res))
+    r.get('/realm/tableNames', (req, res) => c.realmTableNames(req, res))
+    r.get('/realm/columns', (req, res) => c.realmTableColumns(req, res))
     export default r;

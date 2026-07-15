@@ -82,7 +82,7 @@ export interface QualityResult {
 }
 
 const initialState: QualityResult = {
-    score: 0,
+    score: null,
     label: "",
     breakdown: { fpsScore: 0, heapScore: 0 },
     metrics: {},
@@ -101,7 +101,10 @@ const useQualityData = () => {
     const fetchQualityInfo = useCallback(async (options?: { showLoading?: boolean }) => {
         // Zera o score a cada nova chamada, para não exibir o valor
         // da leitura anterior enquanto a nova ainda não chegou
-        setState((prev) => ({ ...prev, score: 0, label: "" }));
+        setState((prev) => ({
+            ...prev,
+
+        }));
 
         if (options?.showLoading) {
             setIsLoading(true);
@@ -109,7 +112,7 @@ const useQualityData = () => {
 
         try {
             const { status, success, data } = await apiService.getQualityInfo();
-            console.log("response status: ", status);
+
             if (success) {
                 isMounted.current = true;
                 setState(data);

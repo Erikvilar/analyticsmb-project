@@ -22,5 +22,11 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "src/agent",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
 }

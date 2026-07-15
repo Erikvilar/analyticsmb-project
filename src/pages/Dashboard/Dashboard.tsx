@@ -13,16 +13,23 @@ export default function Dashboard  () {
     return (
         <div>
             <FilterBar/>
+            <CpuCard/>
 
             <div className="row-chart">
-                <CpuCard/>
+                          <MemoryPressureCard isLoading={isLoading}/>
+    <QualityCard/>
 
-                <MemoryPressureCard isLoading={isLoading}/>
-
-                <QualityCard />
             </div>
 
-                <Terminalcard/>
+
+    <Terminalcard/>
+
+
+
+
+
+
+
 
         </div>
     )

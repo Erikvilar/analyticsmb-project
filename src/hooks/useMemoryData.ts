@@ -77,7 +77,7 @@ const useMemoryData = () => {
 
         try {
             const { status, success, data } = await apiService.getMemoryInfo();
-            console.log("response status: ", status);
+
             if (success) {
                 isMounted.current = true;
                 setState({ ...data });

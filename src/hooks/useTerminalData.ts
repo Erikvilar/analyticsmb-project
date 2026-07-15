@@ -2,17 +2,41 @@ import { useRef, useState, useCallback } from "react";
 import apiService from "../service/api.service";
 
 export interface TerminalLine {
-    type?: "info" | "success" | "error";
+    type: "success" | "error" | "info" | "table";
     text: string;
 }
 
-interface PromptResult {
-    command: string;
-    type: "table" | "keyValue" | "tabular" | "text" | "help";
-    raw: string;
-    data: any;
-}
 
+export type PromptResult =
+    | { type: "help"; data: any }
+    | { type: "table"; data: any }
+    | { type: "keyValue"; data: any }
+    | { type: "tabular"; data: any }
+    | { type: "text"; data: any }
+    | { type: "realmColumns"; data: RealmColumnsData }
+    | { type: "realm"; data: RealmPromptData }
+    | { type: "error"; message: string };
+
+export interface RealmPromptData {
+    pacote: string;
+    tabela?: string;
+    query?: string;
+    count: number;
+    rows: Record<string, any>[];
+}
+export interface RealmColumnsData {
+    pacote: string;
+    tabela: string;
+    totalColunas: number;
+    colunas: {
+        nome: string;
+        tipo: string;
+        referenciaPara?: string;
+        opcional: boolean;
+        indexado: boolean;
+        chavePrimaria: boolean;
+    }[];
+}
 const MAX_LINES = 500; // limite pra não crescer infinito em sessões longas
 
 export function useTerminalData() {
@@ -97,6 +121,13 @@ function formatPromptResult(result: PromptResult): TerminalLine[] {
             return formatTable(result.data);
         case "keyValue":
             return formatKeyValue(result.data);
+        case "error":
+            return [{ type: "error", text: `✗ ${result.message}` }];
+        case "realm":
+            return formatRealm(result.data);
+        case "realmColumns":
+            return formatRealmColumns(result.data);
+
         case "tabular":
             return formatTabular(result.data);
         case "text":
@@ -104,7 +135,19 @@ function formatPromptResult(result: PromptResult): TerminalLine[] {
             return formatText(result.data);
     }
 }
+function visualWidth(str: string): number {
+    let width = 0;
+    for (const char of str) {
+        width += char.codePointAt(0)! > 0xFFFF ? 2 : 1;
+    }
+    return width;
+}
 
+function padEndVisual(str: string, targetWidth: number): string {
+    const currentWidth = visualWidth(str);
+    const diff = targetWidth - currentWidth;
+    return diff > 0 ? str + " ".repeat(diff) : str;
+}
 
 function formatHelp(data: any): TerminalLine[] {
     if (!data?.lines?.length) {
@@ -185,9 +228,14 @@ function formatTabular(data: any): TerminalLine[] {
     }));
 }
 
+
+
 function formatText(data: any): TerminalLine[] {
     const lines: string[] = data?.lines ?? [];
-
+    console.log(data);
+    if(data.realmSuccess){
+        return [{ type: "success", text: data.realmSuccess }];
+    }
     if (!lines.length) {
         return [{ type: "info", text: "(sem saída)" }];
     }
@@ -201,5 +249,130 @@ function formatBytes(bytes: number): string {
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
     return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${units[i]}`;
 }
+
+function formatRealmColumns(data: RealmColumnsData): TerminalLine[] {
+    const lines: TerminalLine[] = [];
+
+    lines.push({ type: "info", text: `📦 ${data.pacote} → tabela: ${data.tabela}` });
+
+    if (!data.colunas?.length) {
+        lines.push({ type: "info", text: "(nenhuma coluna encontrada)" });
+        return lines;
+    }
+
+    const headers = ["coluna", "tipo", "PK", "obrigatório", "indexado"];
+    const rows = data.colunas.map((c) => [
+        c.nome,
+        c.referenciaPara ? `${c.tipo}<${c.referenciaPara}>` : c.tipo,
+        c.chavePrimaria ? "🔑" : "-",
+        c.opcional ? "não" : "sim",
+        c.indexado ? "sim" : "não",
+    ]);
+
+    const widths = headers.map((h, i) =>
+        Math.max(visualWidth(h), ...rows.map((r) => visualWidth(r[i])))
+    );
+
+    lines.push({
+        type: "table",
+        text: headers.map((h, i) => padEndVisual(h, widths[i])).join(" │ "),
+    });
+    lines.push({ type: "table", text: widths.map((w) => "─".repeat(w)).join("─┼─") });
+
+    for (const row of rows) {
+        lines.push({
+            type: "table",
+            text: row.map((val, i) => padEndVisual(val, widths[i])).join(" │ "),
+        });
+    }
+
+    lines.push({ type: "info", text: `Total: ${data.totalColunas} coluna(s)` });
+
+    return lines;
+}
+
+
+function formatRealm(data: RealmPromptData): TerminalLine[] {
+    const lines: TerminalLine[] = [];
+
+    const header = data.tabela
+        ? `📦 ${data.pacote} → tabela: ${data.tabela}`
+        : `📦 ${data.pacote}`;
+    lines.push({ type: "info", text: header });
+
+    if (data.query) {
+        lines.push({ type: "info", text: `🔍 query: ${data.query}` });
+    }
+
+    if (!data.rows || data.rows.length === 0) {
+        lines.push({ type: "info", text: "(nenhum registro encontrado)" });
+        return lines;
+    }
+
+    const columns = Array.from(
+        new Set(data.rows.flatMap((row) => Object.keys(row)))
+    );
+
+    const MAX_COL_WIDTH = 30;
+    const widths = columns.map((col) => {
+        const headerLen = visualWidth(col);
+        const maxValueLen = Math.max(
+            ...data.rows.map((row) => visualWidth(formatCellValue(row[col])))
+        );
+        return Math.min(Math.max(headerLen, maxValueLen), MAX_COL_WIDTH);
+    });
+
+    const headerRow = columns
+        .map((col, i) => padEndVisual(truncateVisual(col, widths[i]), widths[i]))
+        .join(" │ ");
+    lines.push({ type: "table", text: headerRow });
+
+    lines.push({
+        type: "table",
+        text: widths.map((w) => "─".repeat(w)).join("─┼─"),
+    });
+
+    for (const row of data.rows) {
+        const rowText = columns
+            .map((col, i) => {
+                const raw = formatCellValue(row[col]);
+                const truncated = truncateVisual(raw, widths[i]);
+                return padEndVisual(truncated, widths[i]);
+            })
+            .join(" │ ");
+        lines.push({ type: "table", text: rowText });
+    }
+
+    lines.push({ type: "info", text: `Total: ${data.count} registro(s)` });
+
+    return lines;
+}
+
+function formatCellValue(value: any): string {
+    if (value === null || value === undefined) return "-";
+    if (value instanceof Date) return value.toISOString();
+    if (typeof value === "object") return JSON.stringify(value);
+    return String(value);
+}
+
+
+function truncateVisual(str: string, maxWidth: number): string {
+    if (visualWidth(str) <= maxWidth) return str;
+
+    let result = "";
+    let width = 0;
+    const ellipsis = "...";
+    const targetWidth = maxWidth - visualWidth(ellipsis);
+
+    for (const char of str) {
+        const charWidth = char.codePointAt(0)! > 0xFFFF ? 2 : 1;
+        if (width + charWidth > targetWidth) break;
+        result += char;
+        width += charWidth;
+    }
+
+    return result + ellipsis;
+}
+
 
 export default useTerminalData;

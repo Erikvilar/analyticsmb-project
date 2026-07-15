@@ -7,111 +7,161 @@ interface TerminalCardProps {
     title?: string;
 }
 
-export default function TerminalCard({ title = "Terminal" }: TerminalCardProps) {
+export default function TerminalCard({
+                                         title = "Terminal",
+                                     }: TerminalCardProps) {
 
     const { lines, handleInput, isLoading } = useTerminalData();
+
     const [inputValue, setInputValue] = useState("");
 
-    // histórico de comandos digitados (só os comandos, não o output)
     const [history, setHistory] = useState<string[]>([]);
-    const historyIndexRef = useRef<number>(-1); // -1 = fora do histórico (input livre)
-    const draftRef = useRef<string>(""); // guarda o que o usuário estava digitando antes de navegar
+    const [, forceUpdate] = useState(0);
+    const historyIndexRef = useRef(-1);
+    const draftRef = useRef("");
 
     const bodyRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    // auto-scroll quando novas linhas chegam
     useEffect(() => {
-        if (bodyRef.current) {
-            bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-        }
+        bodyRef.current?.scrollTo({
+            top: bodyRef.current.scrollHeight,
+            behavior: "smooth",
+        });
     }, [lines]);
 
-    // captura o teclado automaticamente, sem precisar clicar no input
     useEffect(() => {
-        const focusInput = () => {
-            inputRef.current?.focus();
-        };
 
-        focusInput();
+        const focus = () => inputRef.current?.focus();
 
-        const handleGlobalKeyDown = () => {
+        focus();
+
+        const listener = () => {
             if (document.activeElement !== inputRef.current) {
-                focusInput();
+                focus();
             }
         };
 
-        window.addEventListener("keydown", handleGlobalKeyDown);
-        return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+        window.addEventListener("keydown", listener);
+
+        return () => window.removeEventListener("keydown", listener);
+
     }, []);
 
     const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+
         if (e.key === "Enter") {
+
             const command = inputValue.trim();
+
             if (!command) return;
 
             handleInput(command);
 
-            // adiciona ao histórico, evitando duplicar se for igual ao último comando
-            setHistory(prev => (prev[prev.length - 1] === command ? prev : [...prev, command]));
+            setHistory(prev =>
+                prev.at(-1) === command ? prev : [...prev, command]
+            );
 
             historyIndexRef.current = -1;
             draftRef.current = "";
+
             setInputValue("");
+
             return;
         }
 
         if (e.key === "ArrowUp") {
-            e.preventDefault(); // evita mover o cursor de texto ou rolar a página
 
-            if (history.length === 0) return;
+            e.preventDefault();
 
-            // primeira vez subindo: guarda o que estava sendo digitado
+            if (!history.length) return;
+
             if (historyIndexRef.current === -1) {
+
                 draftRef.current = inputValue;
+
                 historyIndexRef.current = history.length - 1;
+
             } else if (historyIndexRef.current > 0) {
-                historyIndexRef.current -= 1;
+
+                historyIndexRef.current--;
+
             }
 
             setInputValue(history[historyIndexRef.current]);
+
+            requestAnimationFrame(() => {
+                inputRef.current?.setSelectionRange(
+                    history[historyIndexRef.current].length,
+                    history[historyIndexRef.current].length
+                );
+            });
+
             return;
         }
 
         if (e.key === "ArrowDown") {
+
             e.preventDefault();
 
             if (historyIndexRef.current === -1) return;
 
             if (historyIndexRef.current < history.length - 1) {
-                historyIndexRef.current += 1;
-                setInputValue(history[historyIndexRef.current]);
+
+                historyIndexRef.current++;
+
+                const cmd = history[historyIndexRef.current];
+
+                setInputValue(cmd);
+
+                requestAnimationFrame(() => {
+                    inputRef.current?.setSelectionRange(cmd.length, cmd.length);
+                });
+
             } else {
 
                 historyIndexRef.current = -1;
+
                 setInputValue(draftRef.current);
+
+                requestAnimationFrame(() => {
+                    inputRef.current?.setSelectionRange(
+                        draftRef.current.length,
+                        draftRef.current.length
+                    );
+                });
+
             }
         }
     };
+    const cursor = inputRef.current?.selectionStart ?? inputValue.length;
 
+    const before = inputValue.substring(0, cursor);
+    const after = inputValue.substring(cursor);
     return (
         <div className="terminal-card">
 
             <div className="terminal-card__header">
+
                 <div className="terminal-card__title">
                     <span className="material-symbols-outlined">
                         terminal
                     </span>
+
                     {title}
                 </div>
 
                 <div className="terminal-card__status">
-                    <span className="terminal-card__dot"/>
+                    <span className="terminal-card__dot" />
                     LIVE
                 </div>
+
             </div>
 
-            <div className="terminal-card__body" ref={bodyRef}>
+            <div
+                className="terminal-card__body"
+                ref={bodyRef}
+            >
 
                 {lines.map((line, index) => (
                     <div
@@ -123,25 +173,43 @@ export default function TerminalCard({ title = "Terminal" }: TerminalCardProps) 
                 ))}
 
                 <div className="terminal-card__prompt-row">
-                    <span className="terminal-card__prompt">Analytics &gt;</span>
-                    <span className="terminal-card__typed">{inputValue}</span>
-                    <span className="terminal-card__cursor">_</span>
+
+    <span className="terminal-card__prompt">
+        Analytics &gt;
+    </span>
+
+                    <span className="terminal-card__typed">
+        {before}
+    </span>
+
+                    <span className="terminal-card__cursor">
+        _
+    </span>
+
+                    <span className="terminal-card__typed">
+        {after}
+    </span>
 
                     <input
                         ref={inputRef}
                         className="terminal-card__hidden-input"
                         type="text"
                         value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
+                        onChange={(e) => {
+                            setInputValue(e.target.value);
+                        }}
                         onKeyDown={onKeyDown}
+                        onKeyUp={() => forceUpdate(x => x + 1)}
+                        onClick={() => forceUpdate(x => x + 1)}
+                        onSelect={() => forceUpdate(x => x + 1)}
                         disabled={isLoading}
-                        autoFocus
                         autoComplete="off"
                         spellCheck={false}
                     />
-                </div>
 
+                </div>
             </div>
+
         </div>
     );
 }

@@ -75,15 +75,7 @@ export default function CpuCard() {
 
         <div className="cpu-card">
 
-            <div className="cpu-card__header">
 
-        <span className="material-symbols-outlined">
-            memory
-        </span>
-
-                <span>CPU Monitor</span>
-
-            </div>
 
             <div className="cpu-card__content">
 
