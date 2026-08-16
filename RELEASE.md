@@ -9,7 +9,7 @@
 | Data do build | 16 de agosto de 2026 |
 | Plataforma | Windows 10 e 11 x64 |
 | Arquitetura | x64 |
-| SHA-256 | Pendente da geração do artefato final |
+| SHA-256 | `348002044314992354AF5E367A0E402DF8956B830C92A1AEBBA64FB7FC28BB0E` |
 
 > Esta versão deve ser publicada no GitHub como **pre-release** enquanto permanecer no canal Beta.
 
