@@ -1,0 +1,199 @@
+AnalyticsMB - CHANGELOG
+=======================
+
+Versioning format:
+MAJOR.MINOR.PATCH
+
+This changelog summarizes the main engineering and product evolution of AnalyticsMB.
+It is intended for public showcase and release notes. Internal implementation details,
+credentials, private endpoints and sensitive operational data are intentionally omitted.
+
+----------------------------------------------------------------------
+[0.1.0-alpha] - Developer Preview
+----------------------------------------------------------------------
+
+Added
+-----
+- Initial public developer preview of AnalyticsMB.
+- Desktop interface built with React and TypeScript.
+- Local application layer using Node.js and Express.
+- Android device observation through ADB-based tooling.
+- Monitoring sessions for selected Android applications.
+- CPU telemetry for device and application process.
+- Memory analysis including PSS, RSS and heap-related indicators.
+- Frame performance analysis with FPS, jank and percentile-based metrics.
+- Battery and energy monitoring with time-based visualization.
+- Network-related monitoring and inspection capabilities.
+- Stability analysis for crashes, ANRs and process lifecycle events.
+- Historical session storage using SQLite.
+- Support for local data exploration workflows.
+- Technical dashboards with time-series charts and KPI cards.
+- Comparative analysis across sessions, versions and time ranges.
+- Report generation for technical investigations.
+- Maestro-based automated test scenario integration.
+- Support for reusable test flows and subflows.
+- Association between automated test execution and collected telemetry.
+- Device mirroring workflow using scrcpy.
+- Integrated terminal-oriented workflows for local diagnostics.
+- Firebase-based user authentication.
+- Internationalization support for pt-BR, English and Spanish.
+- Theme system with configurable visual accent styles.
+- Responsive dashboard composition and configurable widgets.
+- Accessibility-oriented UI patterns, keyboard interaction and semantic feedback.
+- Desktop packaging workflow for Windows.
+- Native runtime/launcher integration for application lifecycle handling.
+
+Engineering
+-----------
+- Adopted layered architecture for the local backend:
+  Route -> Controller -> Service -> Repository.
+- Adopted separated telemetry pipeline:
+  Command -> Parser -> Calculator.
+- Added domain-oriented modules for metrics with independent lifecycle and rules.
+- Added defensive parsing for platform-generated output.
+- Added deterministic calculators for derived metrics.
+- Added explicit distinction between valid zero values and unavailable data.
+- Added timestamp-based telemetry model for historical analysis.
+- Added session-oriented persistence model.
+- Added migration-based SQLite schema evolution.
+- Added controlled retention and storage policies for historical telemetry.
+- Added declarative registries for navigation, widgets and themes.
+- Added separation between collection frequency, UI refresh frequency and persistence frequency.
+- Added explicit handling for invalid intervals, missing processes and restarted processes.
+- Added structured error states for unavailable device data.
+- Added architecture boundaries between presentation, domain logic and infrastructure.
+- Added unit-testable parsers and calculators independent of a connected Android device.
+- Added lazy loading for major frontend routes and heavy visual areas.
+- Added safeguards against unnecessary polling when pages are inactive.
+- Added controlled asynchronous state and stale response handling.
+- Added normalized DTO-oriented contracts between frontend and local API.
+
+Observability
+-------------
+- Added synchronized CPU sampling based on temporal deltas.
+- Added support for device CPU and application CPU analysis.
+- Added memory footprint analysis over time.
+- Added rendering diagnostics using frame performance data.
+- Added support for FPS, jank and percentile interpretation.
+- Added distinction between transient spikes and sustained degradation.
+- Added power and energy concepts as separate measurements.
+- Added temporal correlation between multiple telemetry signals.
+- Added principle that correlation is not automatically interpreted as causation.
+- Added validity-aware statistics that exclude unavailable or invalid samples.
+- Added monitoring context for application package, session and test execution.
+
+Maestro
+-------
+- Added recursive discovery of YAML test flows.
+- Added support for nested subflows.
+- Added relative flow dependency resolution.
+- Added reusable variable placeholders for test scenarios.
+- Added dynamic variable collection for scenario execution.
+- Added support for test execution context within monitoring sessions.
+- Added preservation of scenario structure for reproducible analysis.
+- Added telemetry association with automated test runs.
+
+Persistence
+-----------
+- Added local SQLite-based historical storage.
+- Added repositories to isolate SQL and persistence concerns.
+- Added versioned migrations.
+- Added WAL-oriented database configuration.
+- Added foreign-key-backed domain relationships.
+- Added controlled retention for long-running historical data.
+- Added support for session summaries and derived metrics.
+- Added safeguards to avoid treating all raw diagnostic output as permanent data.
+
+Frontend
+--------
+- Added dashboard pages for performance and diagnostic domains.
+- Added reusable KPI cards and telemetry chart components.
+- Added configurable performance widgets.
+- Added responsive layouts for desktop usage.
+- Added skeleton loading states.
+- Added empty, loading, error and unavailable states.
+- Added centralized typography tokens.
+- Added Roboto and monospace-oriented technical typography roles.
+- Added theme accent registry.
+- Added consistent spacing and visual hierarchy.
+- Added graph titles, units, legends and contextual tooltips.
+- Added accessible interaction patterns for buttons, forms, drawers and navigation.
+
+Security
+--------
+- Added local-only application boundary for backend communication.
+- Added Firebase Auth as identity authority.
+- Added token-based authenticated application flow.
+- Added data-minimization principles for logs and diagnostics.
+- Added separation between public configuration and privileged credentials.
+- Added policy to keep production credentials and sensitive runtime details private.
+- Added explicit sanitization requirements for public showcase assets and screenshots.
+
+Documentation
+-------------
+- Added architecture documentation.
+- Added engineering decision records for public showcase.
+- Added observability concepts documentation.
+- Added security scope documentation.
+- Added developer showcase branch specification.
+- Added public repository scope guidance.
+- Added guidance for publishing selected code without exposing full production implementation.
+- Added architecture diagrams for system boundaries, data flow, telemetry pipeline and persistence model.
+
+Changed
+-------
+- Refined frontend/backend separation to reduce coupling between React and system-level operations.
+- Refined telemetry handling to preserve unavailable states instead of converting them to zero.
+- Refined CPU calculation model to use synchronized temporal deltas.
+- Refined widget architecture toward declarative registration.
+- Refined data persistence to avoid storing UI-frequency noise.
+- Refined test automation architecture to preserve workspace and subflow relationships.
+- Refined product positioning from a simple dashboard into a local Android observability and diagnostics platform.
+- Refined public documentation to separate showcase content from production implementation.
+
+Fixed
+-----
+- Corrected invalid CPU interpretation caused by non-synchronized samples.
+- Corrected cases where missing process data could be misrepresented as zero.
+- Improved handling of PID changes between CPU samples.
+- Improved parsing resilience for variable Android command output.
+- Improved historical data consistency across monitoring sessions.
+- Improved long-running polling cleanup and stale-response handling.
+- Improved session and report contextualization.
+- Improved separation of domain logic from UI components.
+- Improved reliability of local process lifecycle handling.
+
+Known Limitations
+-----------------
+- Android telemetry availability may vary by OS version, vendor, permissions and build type.
+- Some diagnostics depend on information exposed by the connected device.
+- External observation cannot provide every insight available through application-level instrumentation.
+- Correlated signals still require developer interpretation before assigning root cause.
+- Some capabilities may require additional local tooling packaged with the desktop application.
+- Accessibility practices are implemented, but formal WCAG conformity requires dedicated audit.
+- The developer preview should not be considered a production support commitment.
+
+Public Showcase Scope
+---------------------
+The public showcase intentionally excludes:
+
+- Complete production ADB orchestration.
+- Full collectors and compatibility logic.
+- Complete persistence implementation.
+- Internal report engine details.
+- Maestro execution internals.
+- Terminal/runtime orchestration.
+- Launcher and installer internals.
+- Production configuration.
+- Credentials and privileged authentication material.
+- Real client data, real package names and sensitive logs.
+
+----------------------------------------------------------------------
+Project
+----------------------------------------------------------------------
+
+AnalyticsMB
+Developer: Erik Alves Vilar
+Status: Developer Preview / Showcase
+Platform: Windows x64
+Primary target: Android application diagnostics and observability
