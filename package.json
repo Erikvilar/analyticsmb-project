@@ -1,0 +1,10 @@
+{
+  "name": "analyticsmb-developer-showcase",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node --experimental-strip-types --check showcase/backend/cpu-example/cpu.parser.ts && node --experimental-strip-types --check showcase/backend/cpu-example/cpu.calculator.ts",
+    "test": "node --test --experimental-strip-types showcase/backend/cpu-example/cpu.calculator.test.ts"
+  }
+}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 500 500" role="img" aria-labelledby="title description">
+  <title id="title">AnalyticsMB</title>
+  <desc id="description">Símbolo vetorial do AnalyticsMB criado pela Erikdev</desc>
+  <rect width="500" height="500" rx="88" fill="#050505"/>
+  <g fill="none" stroke="#b8b8bd" stroke-width="6" stroke-linejoin="miter" stroke-linecap="square" transform="translate(250 245) scale(1.72) translate(-250 -245)">
+    <polygon points="170,145 165,210 200,180"/>
+    <polygon points="330,145 335,210 300,180"/>
+    <polyline points="250,260 250,230 210,190 170,220 185,225 155,250 175,255 160,270 215,285 220,320 245,340 250,335"/>
+    <polyline points="250,260 250,230 290,190 330,220 315,225 345,250 325,255 340,270 285,285 280,320 255,340 250,335"/>
+    <polygon points="240,315 260,315 250,330"/>
+    <polygon points="210,230 235,245 230,235"/>
+    <polygon points="290,230 265,245 270,235"/>
+  </g>
+</svg>

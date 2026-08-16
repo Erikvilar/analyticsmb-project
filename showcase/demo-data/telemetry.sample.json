@@ -1,0 +1,19 @@
+[
+  {
+    "timestamp": "2026-08-01T10:32:15.000Z",
+    "packageId": "com.example.shop",
+    "deviceCpuPercent": 42.4,
+    "appCpuPercent": 18.1,
+    "fps": 58,
+    "pssMb": 214
+  },
+  {
+    "timestamp": "2026-08-01T10:32:16.000Z",
+    "packageId": "com.example.shop",
+    "deviceCpuPercent": 71.2,
+    "appCpuPercent": 47,
+    "fps": 34,
+    "pssMb": 296
+  }
+]
+
