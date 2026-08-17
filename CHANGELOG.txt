@@ -1,199 +1,303 @@
 AnalyticsMB - CHANGELOG
 =======================
 
-Versioning format:
+Formato de versionamento:
 MAJOR.MINOR.PATCH
 
-This changelog summarizes the main engineering and product evolution of AnalyticsMB.
-It is intended for public showcase and release notes. Internal implementation details,
-credentials, private endpoints and sensitive operational data are intentionally omitted.
+Este changelog resume a principal evolução de engenharia e produto do AnalyticsMB.
+Ele foi preparado para apresentação pública, portfólio e notas de release.
+Detalhes internos de implementação, credenciais, endpoints privados e dados operacionais
+sensíveis são intencionalmente omitidos.
 
 ----------------------------------------------------------------------
-[0.1.0-alpha] - Developer Preview
+[22.1.20263] - Developer Preview / Beta
 ----------------------------------------------------------------------
 
-Added
------
-- Initial public developer preview of AnalyticsMB.
-- Desktop interface built with React and TypeScript.
-- Local application layer using Node.js and Express.
-- Android device observation through ADB-based tooling.
-- Monitoring sessions for selected Android applications.
-- CPU telemetry for device and application process.
-- Memory analysis including PSS, RSS and heap-related indicators.
-- Frame performance analysis with FPS, jank and percentile-based metrics.
-- Battery and energy monitoring with time-based visualization.
-- Network-related monitoring and inspection capabilities.
-- Stability analysis for crashes, ANRs and process lifecycle events.
-- Historical session storage using SQLite.
-- Support for local data exploration workflows.
-- Technical dashboards with time-series charts and KPI cards.
-- Comparative analysis across sessions, versions and time ranges.
-- Report generation for technical investigations.
-- Maestro-based automated test scenario integration.
-- Support for reusable test flows and subflows.
-- Association between automated test execution and collected telemetry.
-- Device mirroring workflow using scrcpy.
-- Integrated terminal-oriented workflows for local diagnostics.
-- Firebase-based user authentication.
-- Internationalization support for pt-BR, English and Spanish.
-- Theme system with configurable visual accent styles.
-- Responsive dashboard composition and configurable widgets.
-- Accessibility-oriented UI patterns, keyboard interaction and semantic feedback.
-- Desktop packaging workflow for Windows.
-- Native runtime/launcher integration for application lifecycle handling.
+Adicionado
+----------
+- Primeira versão pública de demonstração do AnalyticsMB.
+- Interface desktop construída com React e TypeScript.
+- Camada de aplicação local utilizando Node.js e Express.
+- Observação de dispositivos Android através de ferramentas baseadas em ADB.
+- Sessões de monitoramento para aplicações Android selecionadas.
+- Telemetria de CPU do dispositivo e do processo da aplicação.
+- Análise de memória incluindo PSS, RSS e indicadores relacionados ao heap.
+- Análise de renderização com FPS, jank, percentis e métricas temporais.
+- Monitoramento de bateria, potência e energia ao longo do tempo.
+- Recursos de monitoramento e inspeção de rede.
+- Análise de estabilidade para crashes, ANRs e eventos de ciclo de vida do processo.
+- Armazenamento histórico local utilizando SQLite.
+- Fluxos locais para exploração de bancos de dados.
+- Dashboards técnicos com séries temporais, indicadores e KPIs.
+- Comparação entre sessões, versões e períodos.
+- Geração de relatórios técnicos para investigações.
+- Integração com testes automatizados utilizando Maestro.
+- Suporte a flows reutilizáveis e subflows.
+- Associação entre execução de testes automatizados e telemetria coletada.
+- Espelhamento de dispositivo utilizando scrcpy.
+- Fluxos integrados de terminal para diagnóstico local.
+- Autenticação de usuário utilizando Firebase Auth.
+- Internacionalização utilizando Tolgee com suporte a pt-BR, inglês e espanhol.
+- Sistema de temas com estilos visuais configuráveis.
+- Composição responsiva de dashboards e widgets configuráveis.
+- Padrões de acessibilidade com feedback semântico e interação por teclado.
+- Empacotamento desktop para Windows x64.
+- Launcher nativo em C++ para inicialização e gerenciamento do runtime da aplicação.
 
-Engineering
------------
-- Adopted layered architecture for the local backend:
-  Route -> Controller -> Service -> Repository.
-- Adopted separated telemetry pipeline:
-  Command -> Parser -> Calculator.
-- Added domain-oriented modules for metrics with independent lifecycle and rules.
-- Added defensive parsing for platform-generated output.
-- Added deterministic calculators for derived metrics.
-- Added explicit distinction between valid zero values and unavailable data.
-- Added timestamp-based telemetry model for historical analysis.
-- Added session-oriented persistence model.
-- Added migration-based SQLite schema evolution.
-- Added controlled retention and storage policies for historical telemetry.
-- Added declarative registries for navigation, widgets and themes.
-- Added separation between collection frequency, UI refresh frequency and persistence frequency.
-- Added explicit handling for invalid intervals, missing processes and restarted processes.
-- Added structured error states for unavailable device data.
-- Added architecture boundaries between presentation, domain logic and infrastructure.
-- Added unit-testable parsers and calculators independent of a connected Android device.
-- Added lazy loading for major frontend routes and heavy visual areas.
-- Added safeguards against unnecessary polling when pages are inactive.
-- Added controlled asynchronous state and stale response handling.
-- Added normalized DTO-oriented contracts between frontend and local API.
-
-Observability
--------------
-- Added synchronized CPU sampling based on temporal deltas.
-- Added support for device CPU and application CPU analysis.
-- Added memory footprint analysis over time.
-- Added rendering diagnostics using frame performance data.
-- Added support for FPS, jank and percentile interpretation.
-- Added distinction between transient spikes and sustained degradation.
-- Added power and energy concepts as separate measurements.
-- Added temporal correlation between multiple telemetry signals.
-- Added principle that correlation is not automatically interpreted as causation.
-- Added validity-aware statistics that exclude unavailable or invalid samples.
-- Added monitoring context for application package, session and test execution.
+Resiliência do processo
+-----------------------
+- Adicionado monitor de resiliência para o aplicativo Android selecionado.
+- Adicionada observação de processo ativo e PID atual.
+- Adicionada detecção de foreground service.
+- Adicionada análise de exceção à otimização de bateria.
+- Adicionada leitura de permissão de sobreposição.
+- Adicionada indicação de execução permitida em background.
+- Adicionada visualização do standby bucket.
+- Adicionada contagem de serviços detectados.
+- Adicionada indicação do estado Doze geral do dispositivo.
+- Adicionado histórico de eventos de morte e recriação do processo durante a sessão.
+- Adicionada atualização manual e verificação automática periódica.
+- Adicionados estados de risco, estabilidade, indisponibilidade e warnings.
+- Internacionalizados os textos e estados do monitor de resiliência através do Tolgee.
 
 Maestro
 -------
-- Added recursive discovery of YAML test flows.
-- Added support for nested subflows.
-- Added relative flow dependency resolution.
-- Added reusable variable placeholders for test scenarios.
-- Added dynamic variable collection for scenario execution.
-- Added support for test execution context within monitoring sessions.
-- Added preservation of scenario structure for reproducible analysis.
-- Added telemetry association with automated test runs.
+- Adicionada descoberta recursiva de flows YAML.
+- Adicionado suporte a subflows aninhados.
+- Adicionada resolução de dependências relativas entre flows.
+- Adicionado suporte a placeholders reutilizáveis em cenários.
+- Adicionada coleta dinâmica de variáveis utilizadas pelo workspace.
+- Adicionado contexto de execução dos testes dentro das sessões de monitoramento.
+- Adicionada preservação da estrutura do cenário para análises reproduzíveis.
+- Adicionada associação da telemetria com execuções automatizadas.
+- Adicionado importador de arquivo individual `.yaml` ou `.yml`.
+- Adicionado importador de pastas completas de flows.
+- Adicionado guia de importação Maestro dentro da interface.
+- Adicionada validação visual para erros de importação.
+- Adicionado gerenciamento de arquivos de teste importados.
+- Adicionado suporte para ativar/desativar testes participantes de um fluxo.
+- Adicionado descarte individual de arquivos e possibilidade de desfazer.
+- Adicionado descarte definitivo de todos os testes importados com confirmação crítica.
+- Adicionado editor de variáveis dos flows em formulário único.
+- Adicionada navegação entre múltiplos arquivos durante a configuração.
+- Adicionada biblioteca de cenários Maestro.
+- Adicionado salvamento de cenários contendo múltiplos flows.
+- Adicionado carregamento de cenários previamente salvos.
+- Adicionada indicação de flows pendentes de configuração ao carregar um cenário.
+- Adicionada opção para sair do cenário mantendo os arquivos disponíveis no workspace.
+- Adicionada visualização compacta da sequência de execução dos testes.
+- Adicionados estados visuais para testes aguardando, executando, aprovados e com falha.
+- Adicionada identificação da ordem de execução dos flows.
+- Adicionado Console Maestro CLI integrado à tela de testes.
+- Adicionada visualização de STDOUT e STDERR das execuções.
+- Adicionada exibição de código de saída e duração do teste.
+- Adicionadas fases de execução: fila, inicialização da CLI, conexão, execução e conclusão.
+- Adicionadas mensagens contextuais para cada fase da execução.
+- Adicionada geração de relatório individual de teste.
+- Adicionada geração de relatório consolidado de cenário.
+- Adicionados estados de geração de relatório e tratamento de erros.
+- Internacionalizados os principais estados, ações, feedbacks, cenários, console e fluxo Maestro em pt-BR, inglês e espanhol.
 
-Persistence
------------
-- Added local SQLite-based historical storage.
-- Added repositories to isolate SQL and persistence concerns.
-- Added versioned migrations.
-- Added WAL-oriented database configuration.
-- Added foreign-key-backed domain relationships.
-- Added controlled retention for long-running historical data.
-- Added support for session summaries and derived metrics.
-- Added safeguards to avoid treating all raw diagnostic output as permanent data.
+Internacionalização
+-------------------
+- Consolidado o uso de `useTranslate()` através do Tolgee nas telas mais recentes.
+- Mantido português como texto-base das keys de tradução.
+- Adicionadas traduções em inglês e espanhol para o monitor de resiliência.
+- Adicionadas traduções em inglês e espanhol para o workspace Maestro.
+- Adicionadas traduções em inglês e espanhol para o Console Maestro CLI.
+- Adicionadas traduções em inglês e espanhol para a sequência visual de execução dos flows.
+- Adicionadas traduções para estados, ações, mensagens de erro, alertas, cenários e feedbacks.
+- Mantidos termos técnicos como ADB, CLI, STDOUT, STDERR, Maestro e flow quando apropriado ao contexto técnico.
+
+Empacotamento e distribuição
+----------------------------
+- Refatorado o fluxo de distribuição do Windows para um modelo self-contained.
+- Removida a dependência do instalador tradicional para a versão Beta.
+- Removida a necessidade de gerar `AnalyticsMB-Setup.exe` no pipeline atual.
+- Mantido `AnalyticsMB.exe` nativo como executável público de entrada.
+- Mantido o runtime desktop gerado pelo Nativefier em diretório interno da distribuição.
+- Padronizada a saída do Nativefier em `build/desktop`.
+- Removido o uso do manifesto temporário `.nativefier-current.json`.
+- Removidos diretórios temporários de múltiplas tentativas dentro de `release`.
+- Mantido o Nativefier como ferramenta global de build e sua localização resolvida via `where.exe`.
+- Adicionada validação explícita da CLI global do Nativefier e de suas dependências auxiliares.
+- Adicionada validação da saída gerada pelo Nativefier antes de continuar o empacotamento.
+- Separado o build desktop do diretório final de release.
+- Padronizada a montagem final em `release/AnalyticsMB`.
+- Mantida a estrutura self-contained com launcher público, runtime desktop, Express, SQLite, Maestro e scrcpy.
+- Ajustado o launcher C++ para trabalhar exclusivamente com caminhos relativos à localização do executável.
+- Eliminada dependência de caminhos absolutos do ambiente de desenvolvimento.
+- Evitada dependência de instalação em `Program Files` para a distribuição Beta.
+- Mantida a aplicação executável diretamente a partir da pasta distribuída.
+- Adicionada validação final da estrutura self-contained antes da publicação.
+
+Integridade de release
+----------------------
+- Adicionada geração automática de SHA-256 para o `AnalyticsMB.exe` final.
+- O hash é calculado somente após a montagem e validação da distribuição.
+- Adicionado arquivo `AnalyticsMB.exe.sha256` ao resultado da release.
+- O SHA-256 pode ser utilizado para validar a integridade do executável distribuído.
+- Padronizado o fluxo final:
+  build -> package -> validate -> SHA-256.
+- Evitada geração de checksum antes da conclusão do artefato final.
+
+Arquitetura e engenharia
+------------------------
+- Adotada arquitetura em camadas para o backend local:
+  Route -> Controller -> Service -> Repository.
+- Adotado pipeline separado para telemetria:
+  Command -> Parser -> Calculator.
+- Adicionados módulos orientados a domínio com ciclos de vida e regras independentes.
+- Adicionado parsing defensivo para saídas geradas pela plataforma Android.
+- Adicionados calculators determinísticos para métricas derivadas.
+- Adicionada distinção explícita entre valor zero válido e dado indisponível.
+- Adicionado modelo temporal de telemetria baseado em timestamps.
+- Adicionado modelo de persistência orientado a sessões.
+- Adicionada evolução de schema SQLite baseada em migrations.
+- Adicionadas políticas controladas de retenção e armazenamento histórico.
+- Adicionados registries declarativos para navegação, widgets e temas.
+- Separadas frequência de coleta, frequência de atualização da interface e frequência de persistência.
+- Adicionado tratamento explícito para intervalos inválidos, processos ausentes e reinicialização de processos.
+- Adicionados estados estruturados para dados indisponíveis do dispositivo.
+- Definidos limites entre apresentação, domínio e infraestrutura.
+- Parsers e calculators tornados testáveis sem necessidade de dispositivo Android conectado.
+- Adicionado lazy loading para rotas e áreas visuais mais pesadas.
+- Adicionadas proteções contra polling desnecessário em páginas inativas.
+- Adicionado controle de estado assíncrono e descarte de respostas obsoletas.
+- Adicionados contratos normalizados via DTO entre frontend e API local.
+
+Observabilidade
+---------------
+- Adicionada amostragem sincronizada de CPU baseada em deltas temporais.
+- Adicionada análise separada de CPU do dispositivo e da aplicação.
+- Adicionada análise temporal da memória.
+- Adicionados diagnósticos de renderização utilizando dados de frame performance.
+- Adicionado suporte a FPS, jank e interpretação por percentis.
+- Adicionada distinção entre picos transitórios e degradação sustentada.
+- Separados conceitos de potência e energia.
+- Adicionada correlação temporal entre múltiplos sinais de telemetria.
+- Adotado o princípio de que correlação não implica causalidade.
+- Adicionadas estatísticas conscientes de validade que ignoram amostras indisponíveis ou inválidas.
+- Adicionado contexto de pacote, sessão e execução de teste às métricas coletadas.
+
+Persistência
+------------
+- Adicionado armazenamento histórico local baseado em SQLite.
+- Adicionados repositories para isolamento das responsabilidades de persistência.
+- Adicionadas migrations versionadas.
+- Adicionada configuração SQLite orientada a WAL.
+- Adicionadas relações de domínio com foreign keys.
+- Adicionada retenção controlada para histórico de longa duração.
+- Adicionado suporte a resumos de sessão e métricas derivadas.
+- Adicionadas proteções para evitar persistir indiscriminadamente toda saída bruta de diagnóstico.
+- Mantido suporte ao binding nativo do Realm necessário ao runtime.
+- Removidos prebuilds móveis do Realm do pacote desktop quando não necessários.
 
 Frontend
 --------
-- Added dashboard pages for performance and diagnostic domains.
-- Added reusable KPI cards and telemetry chart components.
-- Added configurable performance widgets.
-- Added responsive layouts for desktop usage.
-- Added skeleton loading states.
-- Added empty, loading, error and unavailable states.
-- Added centralized typography tokens.
-- Added Roboto and monospace-oriented technical typography roles.
-- Added theme accent registry.
-- Added consistent spacing and visual hierarchy.
-- Added graph titles, units, legends and contextual tooltips.
-- Added accessible interaction patterns for buttons, forms, drawers and navigation.
+- Adicionadas páginas de dashboard para domínios de performance e diagnóstico.
+- Adicionados cards de KPI e componentes reutilizáveis de gráficos.
+- Adicionados widgets configuráveis de performance.
+- Adicionados layouts responsivos para uso desktop.
+- Adicionados skeletons de carregamento.
+- Adicionados estados de vazio, loading, erro e indisponibilidade.
+- Centralizados tokens de tipografia.
+- Adotadas funções tipográficas com Roboto e fonte monoespaçada para dados técnicos.
+- Adicionado registry de acentos visuais dos temas.
+- Padronizados espaçamento e hierarquia visual.
+- Adicionados títulos, unidades, legendas e tooltips contextuais aos gráficos.
+- Adicionados padrões acessíveis para botões, formulários, drawers e navegação.
+- Expandida a internacionalização dos principais fluxos de teste e diagnóstico.
 
-Security
+Segurança
+---------
+- Adicionado limite local para comunicação entre frontend e backend.
+- Firebase Auth mantido como autoridade de identidade.
+- Adicionado fluxo autenticado baseado em token.
+- Adotados princípios de minimização de dados para logs e diagnósticos.
+- Separadas configurações públicas de credenciais privilegiadas.
+- Mantida política para não expor credenciais de produção e detalhes sensíveis de runtime.
+- Adicionados requisitos explícitos de sanitização para screenshots e materiais públicos.
+- Mantida a distribuição Beta sem assinatura digital, com validação de integridade por SHA-256.
+- Removido o requisito operacional de instalação administrativa em `Program Files` no fluxo Beta self-contained.
+
+Documentação
+------------
+- Adicionada documentação de arquitetura.
+- Adicionados registros públicos de decisões de engenharia.
+- Adicionada documentação dos conceitos de observabilidade.
+- Adicionada documentação do escopo de segurança.
+- Adicionada especificação da branch pública de showcase.
+- Adicionadas diretrizes para escopo do repositório público.
+- Adicionadas orientações para publicar código representativo sem expor a implementação completa de produção.
+- Adicionados diagramas de arquitetura, fluxo de dados, pipeline de telemetria e persistência.
+- Adicionadas especificações para tipografia, relatórios, bateria/potência e integração Maestro.
+
+Alterado
 --------
-- Added local-only application boundary for backend communication.
-- Added Firebase Auth as identity authority.
-- Added token-based authenticated application flow.
-- Added data-minimization principles for logs and diagnostics.
-- Added separation between public configuration and privileged credentials.
-- Added policy to keep production credentials and sensitive runtime details private.
-- Added explicit sanitization requirements for public showcase assets and screenshots.
+- Refinada a separação frontend/backend para reduzir acoplamento entre React e operações de sistema.
+- Refinado o tratamento de telemetria para preservar estados indisponíveis em vez de convertê-los em zero.
+- Refinado o modelo de cálculo de CPU utilizando deltas temporais sincronizados.
+- Refinada a arquitetura de widgets utilizando registro declarativo.
+- Refinada a persistência para evitar armazenamento de ruído na frequência da interface.
+- Refinada a arquitetura de automação de testes para preservar relações entre workspace e subflows.
+- Refinado o posicionamento do produto de dashboard simples para plataforma local de observabilidade e diagnóstico Android.
+- Refinada a documentação pública para separar showcase da implementação de produção.
+- Refinado o pipeline de build para separar preparação, desktop runtime, launcher, empacotamento, validação e integridade.
+- Refinado o Nativefier para gerar saída determinística fora do diretório público de release.
+- Refinado o launcher para operar como ponto de entrada self-contained em vez de instalador.
+- Refinado o fluxo Beta para execução portátil sem instalação administrativa tradicional.
 
-Documentation
--------------
-- Added architecture documentation.
-- Added engineering decision records for public showcase.
-- Added observability concepts documentation.
-- Added security scope documentation.
-- Added developer showcase branch specification.
-- Added public repository scope guidance.
-- Added guidance for publishing selected code without exposing full production implementation.
-- Added architecture diagrams for system boundaries, data flow, telemetry pipeline and persistence model.
+Corrigido
+---------
+- Corrigida interpretação inválida de CPU causada por amostras não sincronizadas.
+- Corrigidos casos em que processo ausente poderia ser representado incorretamente como zero.
+- Melhorado o tratamento de mudanças de PID entre amostras.
+- Melhorada a resiliência dos parsers para diferentes formatos de saída Android.
+- Melhorada a consistência do histórico entre sessões.
+- Melhorada a limpeza de polling e respostas obsoletas em execuções longas.
+- Melhorado o contexto de sessões e relatórios.
+- Melhorada a separação da lógica de domínio dos componentes visuais.
+- Melhorada a confiabilidade do gerenciamento local de processos.
+- Corrigido o fluxo de distribuição que anteriormente dependia de instalação tradicional em `Program Files`.
+- Eliminada a geração obrigatória do instalador nativo na Beta self-contained.
+- Eliminado o acoplamento do empacotamento com `.nativefier-current.json`.
+- Eliminada dependência de localização local do Nativefier dentro de `node_modules` quando a instalação utilizada é global.
+- Melhorada a validação dos arquivos obrigatórios antes de considerar uma distribuição pronta.
 
-Changed
--------
-- Refined frontend/backend separation to reduce coupling between React and system-level operations.
-- Refined telemetry handling to preserve unavailable states instead of converting them to zero.
-- Refined CPU calculation model to use synchronized temporal deltas.
-- Refined widget architecture toward declarative registration.
-- Refined data persistence to avoid storing UI-frequency noise.
-- Refined test automation architecture to preserve workspace and subflow relationships.
-- Refined product positioning from a simple dashboard into a local Android observability and diagnostics platform.
-- Refined public documentation to separate showcase content from production implementation.
-
-Fixed
------
-- Corrected invalid CPU interpretation caused by non-synchronized samples.
-- Corrected cases where missing process data could be misrepresented as zero.
-- Improved handling of PID changes between CPU samples.
-- Improved parsing resilience for variable Android command output.
-- Improved historical data consistency across monitoring sessions.
-- Improved long-running polling cleanup and stale-response handling.
-- Improved session and report contextualization.
-- Improved separation of domain logic from UI components.
-- Improved reliability of local process lifecycle handling.
-
-Known Limitations
------------------
-- Android telemetry availability may vary by OS version, vendor, permissions and build type.
-- Some diagnostics depend on information exposed by the connected device.
-- External observation cannot provide every insight available through application-level instrumentation.
-- Correlated signals still require developer interpretation before assigning root cause.
-- Some capabilities may require additional local tooling packaged with the desktop application.
-- Accessibility practices are implemented, but formal WCAG conformity requires dedicated audit.
-- The developer preview should not be considered a production support commitment.
-
-Public Showcase Scope
+Limitações conhecidas
 ---------------------
-The public showcase intentionally excludes:
+- A disponibilidade de telemetria Android varia conforme versão do sistema, fabricante, permissões e tipo de build.
+- Alguns diagnósticos dependem das informações expostas pelo dispositivo conectado.
+- Observação externa não fornece todos os insights disponíveis através de instrumentação interna da aplicação.
+- Sinais correlacionados ainda exigem interpretação do desenvolvedor antes de atribuir causa raiz.
+- Alguns recursos dependem de ferramentas locais empacotadas com a aplicação desktop.
+- As práticas de acessibilidade estão presentes, mas conformidade WCAG formal exige auditoria específica.
+- A Developer Preview/Beta não deve ser interpretada como compromisso de suporte de produção.
+- A versão Beta atual pode apresentar alertas do Windows SmartScreen por ainda não possuir assinatura digital de code signing.
+- O SHA-256 valida integridade do executável, mas não substitui uma assinatura Authenticode.
 
-- Complete production ADB orchestration.
-- Full collectors and compatibility logic.
-- Complete persistence implementation.
-- Internal report engine details.
-- Maestro execution internals.
-- Terminal/runtime orchestration.
-- Launcher and installer internals.
-- Production configuration.
-- Credentials and privileged authentication material.
-- Real client data, real package names and sensitive logs.
+Escopo público do showcase
+--------------------------
+O showcase público exclui intencionalmente:
+
+- Orquestração ADB completa de produção.
+- Collectors e lógica completa de compatibilidade.
+- Implementação completa de persistência.
+- Detalhes internos do motor de relatórios.
+- Internals de execução do Maestro.
+- Orquestração interna do terminal/runtime.
+- Detalhes privados do launcher e infraestrutura de distribuição.
+- Configurações de produção.
+- Credenciais e material privilegiado de autenticação.
+- Dados reais de clientes, packages reais e logs sensíveis.
 
 ----------------------------------------------------------------------
-Project
+Projeto
 ----------------------------------------------------------------------
 
 AnalyticsMB
-Developer: Erik Alves Vilar
-Status: Developer Preview / Showcase
-Platform: Windows x64
-Primary target: Android application diagnostics and observability
+Desenvolvedor: Erik Alves Vilar
+Status: Developer Preview / Beta
+Plataforma: Windows x64
+Alvo principal: diagnóstico e observabilidade de aplicações Android
