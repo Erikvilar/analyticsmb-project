@@ -1,69 +1,55 @@
-# Release do AnalyticsMB
+# AnalyticsMB 0.1.0-beta.1
+
+## Destaques
+
+- Process Resilience Monitor;
+- relatórios de cenários Maestro;
+- runtime Windows autocontido;
+- métricas históricas e comparativas;
+- verificação SHA-256.
 
 ## Identificação
 
 | Campo | Valor |
-|---|---|
-| Versão | `22.0.20261` |
-| Canal | Beta |
-| Data do build | 16 de agosto de 2026 |
-| Plataforma | Windows 10 e 11 x64 |
-| Arquitetura | x64 |
-| SHA-256 | `348002044314992354AF5E367A0E402DF8956B830C92A1AEBBA64FB7FC28BB0E` |
-
-> Esta versão deve ser publicada no GitHub como **pre-release** enquanto permanecer no canal Beta.
+| --- | --- |
+| Versão pública | `0.1.0-beta.1` |
+| Versão interna do build | `22.0.20261` |
+| Status | Beta / pre-release |
+| Data | 16 de agosto de 2026 |
+| Plataforma | Windows 10/11 x64 |
 
 ## Download
 
-O instalador será disponibilizado na página de releases:
+[Acessar as releases oficiais](https://github.com/Erikvilar/analyticsmb-project/releases)
 
-[Baixar a versão mais recente do AnalyticsMB](https://github.com/Erikvilar/analyticsmb-project/releases/latest)
+O ZIP automático de código-fonte do GitHub não corresponde ao instalador do produto.
 
-Utilize somente os artefatos publicados no repositório oficial. O ZIP automático de código-fonte criado pelo GitHub não corresponde ao instalador do AnalyticsMB.
+## SHA-256
+
+```text
+348002044314992354AF5E367A0E402DF8956B830C92A1AEBBA64FB7FC28BB0E
+```
+
+Valide no PowerShell:
+
+```powershell
+Get-FileHash .\AnalyticsMB-Setup.exe -Algorithm SHA256
+```
 
 ## Requisitos
 
-- Windows 10 ou Windows 11 x64;
-- dispositivo Android com depuração USB habilitada;
-- autorização da chave RSA apresentada pelo Android ao conectar o dispositivo;
-- conexão com a internet para autenticação e carregamento dos recursos de idioma;
-- porta USB e cabo com suporte à transferência de dados;
-- permissões de usuário para instalar e executar a aplicação.
+- Windows 10 ou 11 x64;
+- Android com depuração USB e autorização RSA;
+- cabo com transferência de dados;
+- internet para autenticação e recursos de idioma;
+- permissão de instalação do usuário.
 
-ADB, Maestro, SQLite e demais ferramentas necessárias ao runtime devem ser fornecidos pelo pacote oficial. Não é necessário instalá-los manualmente quando a distribuição estiver completa.
+## Limitações conhecidas
 
-## Verificação de integridade
+- disponibilidade das métricas varia por Android e fabricante;
+- dados privados podem exigir build debuggable;
+- observabilidade ADB não substitui toda instrumentação in-app;
+- build Beta sem assinatura comercial pode acionar o SmartScreen;
+- correlação temporal não prova causalidade.
 
-Após gerar o artefato final, calcule o SHA-256 no PowerShell:
-
-```powershell
-Get-FileHash -Algorithm SHA256 .\AnalyticsMB-22.0.20261-beta.exe
-```
-
-O valor publicado nesta página e nas notas do GitHub Release deve ser exatamente igual ao resultado local. Nunca reutilize o hash de um build anterior.
-
-## Changelog
-
-### `22.0.20261-beta` — 16 de agosto de 2026
-
-- disponibilização inicial do AnalyticsMB como versão pública Beta;
-- observabilidade de CPU, memória, FPS, jank, bateria e energia;
-- acompanhamento de rede, estabilidade, crashes e ANRs;
-- execução de cenários Maestro associada à captura de performance;
-- histórico local e comparação de sessões e versões;
-- geração de relatórios técnicos;
-- exploração de bancos compatíveis;
-- terminal integrado e suporte ao espelhamento nativo;
-- temas visuais, internacionalização e autenticação Firebase.
-
-## Limitações conhecidas da versão Beta
-
-- determinados dados dependem do suporte oferecido pelo fabricante e pela versão do Android;
-- exploração de arquivos privados pode exigir uma aplicação Android depurável;
-- a precisão de algumas métricas depende dos contadores disponibilizados pelo dispositivo;
-- o instalador ainda deve ser validado em diferentes instalações limpas do Windows 10 e 11;
-- assinatura de código ainda é recomendada para aumentar a confiança do Windows no instalador.
-
-## Escopo e suporte
-
-O repositório contém uma demonstração técnica sanitizada. A implementação completa permanece privada. Problemas devem ser registrados sem anexar tokens, bancos, logs sensíveis, serial de dispositivo ou dados empresariais.
+Consulte o [changelog completo](CHANGELOG.md), a [distribuição](docs/DISTRIBUTION.md) e as [limitações](docs/LIMITATIONS.md).

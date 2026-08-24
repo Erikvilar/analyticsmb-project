@@ -1,18 +1,28 @@
-name: Showcase checks
+name: Showcase check
 
 on:
   push:
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: yarn
       - run: yarn install --frozen-lockfile
+      - run: yarn showcase:check
       - run: yarn build
       - run: yarn test
+      - name: Secret scanning
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

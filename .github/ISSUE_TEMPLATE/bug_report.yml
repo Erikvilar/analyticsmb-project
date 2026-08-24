@@ -1,0 +1,52 @@
+name: Relatar um bug
+description: Informe um comportamento reproduzível usando somente dados sanitizados.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: "Não publique credenciais, serial, dados de clientes, bancos ou logs privados. Vulnerabilidades seguem SECURITY.md."
+  - type: input
+    id: analyticsmb-version
+    attributes:
+      label: Versão do AnalyticsMB
+      placeholder: 0.1.0-beta.1
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Ambiente
+      description: Windows, Android e modelo do dispositivo.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Passos para reproduzir
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportamento observado
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs sanitizados
+      render: shell
+  - type: checkboxes
+    id: sanitation
+    attributes:
+      label: Confirmação
+      options:
+        - label: Removi credenciais, dados privados, packages internos e identificadores do dispositivo.
+          required: true

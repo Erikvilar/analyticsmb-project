@@ -1,161 +1,109 @@
-<div align="center">
-  <img src="./assets/analyticsmb-icon.svg" width="128" height="128" alt="Logo do AnalyticsMB">
+# AnalyticsMB
 
-  # AnalyticsMB
+**Android Performance & QA Diagnostics Platform.**
 
-  **Estação de observabilidade, diagnóstico e automação de testes para aplicações Android.**
+[![Status](https://img.shields.io/badge/status-beta-f59e0b)](RELEASE.md)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-2563eb)](docs/DISTRIBUTION.md)
+[![Architecture](https://img.shields.io/badge/architecture-local--first-16a34a)](docs/ARCHITECTURE.md)
+[![License](https://img.shields.io/badge/license-showcase--only-64748b)](LICENSE)
 
-  [![Versão](https://img.shields.io/badge/vers%C3%A3o-22.0.20261-6b7280?style=flat-square)](./package.json)
-  ![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white)
-  ![Android](https://img.shields.io/badge/Android-ADB-3DDC84?style=flat-square&logo=android&logoColor=white)
-  ![Node.js](https://img.shields.io/badge/Node.js-22-5FA04E?style=flat-square&logo=nodedotjs&logoColor=white)
-  ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=111827)
-  ![Escopo](https://img.shields.io/badge/escopo-developer%20showcase-8B5CF6?style=flat-square)
-</div>
+![AnalyticsMB — autenticação e proposta de valor](docs/screenshots/login_page.png)
 
-## O problema que o projeto resolve
+AnalyticsMB é uma plataforma desktop local-first para observabilidade Android, diagnóstico de performance e automação de QA. Ela reúne telemetria via ADB, execução de testes Maestro, sessões históricas, relatórios técnicos e ferramentas de dispositivo em um único workspace.
 
-Investigações de performance Android normalmente exigem combinar manualmente `adb`, `dumpsys`, `/proc`, `gfxinfo`, `meminfo`, `logcat`, dados de bateria, conexões de rede, Maestro, scrcpy e bancos locais. Cada ferramenta entrega informações em formatos e momentos diferentes, deixando a evidência fragmentada.
+> **Maestro reproduz o comportamento. AnalyticsMB mede o impacto.**
 
-Isso dificulta responder perguntas importantes durante desenvolvimento, QA e investigação de incidentes:
+## Por que o AnalyticsMB existe?
 
-- em que momento a CPU aumentou;
-- se a carga veio do dispositivo ou da aplicação monitorada;
-- se FPS e jank pioraram no mesmo intervalo;
-- quanto de memória e energia foi consumido;
-- se o processo foi encerrado ou recriado pelo Android;
-- se houve crash ou ANR durante uma jornada automatizada;
-- se uma versão regrediu em comparação com outra;
-- como preservar os dados para análise e relatório posteriores.
+Investigar performance Android normalmente exige alternar entre `adb`, `dumpsys`, `gfxinfo`, `meminfo`, `logcat`, Maestro, scrcpy, bancos locais e scripts próprios. O AnalyticsMB sincroniza esses sinais em sessões estruturadas para reduzir trabalho manual e preservar evidências técnicas.
 
-O AnalyticsMB centraliza esses sinais em uma estação desktop e os organiza como telemetria temporal sincronizada. A coleta principal ocorre externamente por ADB, sem exigir um SDK dentro do APK monitorado. Métricas ausentes permanecem indisponíveis em vez de serem convertidas artificialmente em zero, e correlação temporal não é apresentada automaticamente como causalidade.
+## Capacidades principais
 
-## Recursos
+- diagnóstico local sem SDK obrigatório para as métricas fundamentais;
+- CPU, memória, FPS, jank, energia, bateria, rede e estabilidade;
+- execução de flows Maestro acompanhada por telemetria contextual;
+- histórico de sessões e comparação por pacote, versão e período;
+- relatórios técnicos com gráficos, KPIs, evidências e glossário;
+- monitoramento de resiliência e ciclo de vida do processo;
+- exploração controlada de bancos mobile;
+- integração com scrcpy e ferramentas ADB;
+- distribuição Windows autocontida e interface multilíngue.
 
-- Performance: FPS, jank, CPU, memória, pressão de heap e qualidade geral.
-- Estabilidade: logs, crashes e ANRs com filtros por período e exportação.
-- Dispositivo: bateria, temperatura, informações do Android e resiliência de processos em segundo plano.
-- Rede: tráfego, sockets e conexões do pacote monitorado.
-- Realm: localização, dump, exploração paginada, filtros e consultas em builds depuráveis.
-- Histórico: armazenamento SQLite por pacote, versão e sessão de monitoramento.
-- Relatórios: comparação entre versões e aplicativos com gráficos e KPIs.
-- Testes: execução Maestro associada à captura de telemetria da jornada.
-- Terminal: comandos ADB integrados, histórico, ajuda e preenchimento com `Tab`.
-- Espelhamento: abertura opcional do scrcpy nativo.
+## Para quem foi criado?
 
-## Arquitetura
+- desenvolvedores Android, React Native e .NET MAUI;
+- profissionais de QA e automação;
+- engenheiros de performance e confiabilidade;
+- equipes que investigam regressões, crashes, ANRs e sincronizações interrompidas.
 
-![Diagrama da arquitetura do AnalyticsMB](./docs/diagrams/diagram_project.png)
+## Como funciona
 
 ```text
-Interface React
-      │
-      ▼
-API Express ───── SQLite / sessões / relatórios
-      │
-      ▼
-Comandos → parsers → calculators
-      │
-      ▼
-Dispositivo Android e pacote monitorado
+Developer / QA
+      ↓
+React + TypeScript
+      ↓
+API local
+      ↓
+Serviços de domínio
+      ↓
+ADB / Android · Maestro · SQLite · scrcpy
 ```
 
-| Camada | Tecnologia |
-|---|---|
-| Interface | React 19, TypeScript, MUI X Charts |
-| API e coleta | Node.js 22, Express 5, comandos ADB e parsers TypeScript |
-| Persistência | SQLite e exploração de Realm |
-| Desktop | Electron/Nativefier e ferramentas nativas Windows |
-| Automação | Maestro e scrcpy |
+Os coletores obtêm dados do dispositivo, parsers transformam a saída bruta, calculators normalizam métricas e serviços associam as amostras à sessão correta. O frontend apresenta valores já calculados e mantém indisponibilidade diferente de zero.
 
-## Exemplo de fluxo real
+Leia a [arquitetura pública](docs/ARCHITECTURE.md) e as [decisões de engenharia](docs/ENGINEERING_DECISIONS.md).
 
-1. Um QA conecta um dispositivo Android autorizado.
-2. O pacote alvo e uma sessão de monitoramento são selecionados.
-3. CPU, memória, FPS, jank, energia, rede e estabilidade são observados.
-4. Um cenário Maestro reproduz uma jornada real.
-5. A telemetria é associada à janela da execução.
-6. O desenvolvedor identifica picos, degradações sustentadas ou regressões.
-7. A evidência pode ser comparada e preservada em relatório técnico.
+## Início rápido
 
-## Interface do AnalyticsMB
+### Para usar uma release
 
-### Preparação do ambiente
+1. Use Windows 10 ou 11 x64.
+2. Garanta uma conexão USB funcional e autorize o computador no Android.
+3. Mantenha conexão com a internet para autenticação e conteúdo de idioma.
+4. Baixe o instalador na seção [Releases](https://github.com/Erikvilar/analyticsmb-project/releases).
+5. Confira o SHA-256 publicado antes de executar.
 
-![Tela de preparação do ambiente](./docs/screenshots/loading_page.png)
+Consulte [distribuição](docs/DISTRIBUTION.md), [suporte](SUPPORT.md) e [limitações](docs/LIMITATIONS.md).
 
-### Autenticação
+### Para validar o código demonstrativo
 
-![Tela de autenticação](./docs/screenshots/login_page.png)
-
-### Visão geral
-
-![Tela de visão geral](./docs/screenshots/overview_page.png)
-
-### Informações do dispositivo
-
-![Tela de informações do dispositivo](./docs/screenshots/device_page.png)
-
-### Performance
-
-![Primeira página de performance](./docs/screenshots/perfomance_page.png)
-
-![Segunda página de performance](./docs/screenshots/perfomance_page_page2.png)
-
-### Rede
-
-![Tela de análise de rede](./docs/screenshots/network_page.png)
-
-### Estabilidade
-
-![Tela de estabilidade, logs, crashes e ANRs](./docs/screenshots/stability_page.png)
-
-### Testes automatizados
-
-![Tela de execução de testes Maestro](./docs/screenshots/tests.page.png)
-
-### Relatórios
-
-![Tela de geração e comparação de relatórios](./docs/screenshots/report_page.png)
-
-### Configurações e temas
-
-![Configurações com o tema Neo Green e terminal](./docs/screenshots/settings_page_neon_green_theme_terminal.png)
-
-![Configurações com o tema Cyber Orange](./docs/screenshots/settings_page_orange_theme.png)
-
-## Conteúdo deste repositório
-
-Este repositório é uma demonstração técnica curada. Ele contém documentação de arquitetura, decisões de engenharia, dados artificiais e exemplos representativos e sanitizados.
-
-A implementação completa de produção permanece privada. Não estão incluídos a orquestração ADB, collectors completos, persistência, execução Maestro, engine de relatórios, terminal, autenticação, launcher, instalador ou configurações de produção.
-
-## Documentação pública
-
-- [Informações da versão pública](./RELEASE.md)
-- [Arquitetura](./docs/ARCHITECTURE.md)
-- [Decisões de engenharia](./docs/ENGINEERING_DECISIONS.md)
-- [Observabilidade Android](./docs/OBSERVABILITY.md)
-- [Exemplo backend de CPU](./showcase/backend/cpu-example/README.md)
-- [Padrões frontend selecionados](./showcase/frontend/README.md)
-
-## Executar as validações do showcase
-
-Use somente Yarn:
-
-```powershell
+```bash
 yarn install
 yarn build
 yarn test
 ```
 
-## Observações
+O código disponível em `showcase/` é sanitizado e demonstra contratos tipados, parser, calculator, testes, componentes, hooks, registries e temas. Ele não inicia a aplicação privada.
 
-- Os dados demonstrativos são artificiais e usam pacotes fictícios.
-- Nenhuma credencial, banco, log real ou binário de ferramenta faz parte do showcase.
-- O código apresentado é apenas para portfólio e demonstração.
-- Nenhuma licença de redistribuição ou reutilização comercial é concedida sem autorização explícita.
+## Status atual
 
----
+O produto está em **Beta**. Métricas Android variam conforme versão, fabricante e permissões do dispositivo. Builds beta sem assinatura comercial também podem acionar o SmartScreen.
 
-Desenvolvido por **Erik Alves Vilar — Software Developer**.
+Veja [RELEASE.md](RELEASE.md), [CHANGELOG.md](CHANGELOG.md) e [ROADMAP.md](ROADMAP.md).
+
+## Documentação
+
+| Documento | Conteúdo |
+| --- | --- |
+| [Arquitetura](docs/ARCHITECTURE.md) | componentes, fluxo de dados e fronteiras |
+| [Decisões de engenharia](docs/ENGINEERING_DECISIONS.md) | contexto, escolhas e trade-offs |
+| [Observabilidade](docs/OBSERVABILITY.md) | definição e validade das métricas |
+| [Modelo de segurança](docs/SECURITY_MODEL.md) | trust boundaries e minimização de dados |
+| [Distribuição](docs/DISTRIBUTION.md) | runtime Windows e verificação de integridade |
+| [Limitações](docs/LIMITATIONS.md) | restrições técnicas conhecidas |
+| [Retrospectiva](docs/PRODUCT_EVOLUTION.md) | trajetória recente do produto |
+
+## Escopo público
+
+Este repositório é um **showcase profissional**, não o código integral de produção. Ele publica documentação, exemplos arquiteturais e dados sintéticos. Orquestração ADB completa, engine Maestro, repositories e migrations de produção, engine de relatórios, runtime do terminal, autenticação, launcher e instalador permanecem privados.
+
+Não há credenciais, bancos, logs reais, packages internos, serial de dispositivos ou dados de clientes neste repositório.
+
+## Segurança e contribuição
+
+Vulnerabilidades não devem ser abertas como issue pública. Consulte [SECURITY.md](SECURITY.md). Para bugs, propostas e documentação, leia [SUPPORT.md](SUPPORT.md) e [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Licença
+
+Este repositório é disponibilizado para avaliação técnica e portfólio. Ele **não concede licença open source nem permissão de redistribuição**. Consulte [LICENSE](LICENSE).

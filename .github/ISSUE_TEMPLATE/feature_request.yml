@@ -1,0 +1,35 @@
+name: Solicitar uma funcionalidade
+description: Descreva o problema e o resultado desejado.
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema
+      description: Que dificuldade precisa ser resolvida?
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Caso de uso
+    validations:
+      required: true
+  - type: textarea
+    id: capability
+    attributes:
+      label: Capacidade proposta
+    validations:
+      required: true
+  - type: dropdown
+    id: persona
+    attributes:
+      label: Persona principal
+      options: [Desenvolvimento, QA, Performance, Arquitetura, Suporte]
+    validations:
+      required: true
+  - type: textarea
+    id: alternative
+    attributes:
+      label: Fluxo alternativo atual
