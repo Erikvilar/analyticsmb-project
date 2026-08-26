@@ -1,29 +1,23 @@
-# Changelog
+# Changelog do AnalyticsMB
 
-## [0.1.0-beta.1] - 2026-08-23
+Histórico executivo das evoluções publicadas no showcase. As versões mais recentes aparecem primeiro.
 
-### Adicionado
+| Versão interna | Data | Categoria | O que mudou |
+| --- | --- | --- | --- |
+| `22.1.20264` | 26/08/2026 | Correção de confiabilidade | O FPS Timeline passou a descartar janelas `gfxinfo` com menos de 20 frames, eliminando registros artificiais de `0 FPS`. A leitura e o reset agora são coordenados por aplicação, sem reutilização do cache de telemetria e sem disputa entre consumidores simultâneos. |
+| `22.1.20263` | 23/08/2026 | Evolução do produto | Consolidação do monitor de resiliência, relatórios Maestro com telemetria contextual, histórico comparativo por aplicação e versão, exploração de bancos mobile e distribuição Windows autocontida. |
+| `22.0.20262` | 16/08/2026 | Plataforma e distribuição | Reforço do empacotamento self-contained, validação das dependências nativas, ampliação dos textos traduzíveis e verificação de integridade do artefato distribuído. |
+| `22.0.20261` | 16/08/2026 | Primeira versão Beta | Lançamento da base pública com diagnóstico de FPS, jank, CPU, memória, energia e estabilidade; sessões históricas; relatórios; execução Maestro; terminal integrado e suporte a scrcpy. |
 
-- monitor de resiliência e ciclo de vida do processo;
-- relatórios de cenários Maestro com telemetria contextual;
-- diagnóstico de FPS, jank, CPU, memória, energia e estabilidade;
-- sessões históricas e comparações por versão, pacote e período;
-- exploração de bancos mobile e suporte a scrcpy;
-- distribuição Windows autocontida e verificação SHA-256;
-- showcase público com exemplos sanitizados.
+## Versão pública
 
-### Alterado
+| Canal | Release | Status | Observação |
+| --- | --- | --- | --- |
+| Beta | [`0.1.0-beta.1`](https://github.com/Erikvilar/analyticsmb-project/releases/tag/v0.1.0-beta.1) | Pre-release | O número público identifica a release disponível no GitHub; a versão interna identifica a evolução do build do produto. |
 
-- coleta de CPU passou a usar deltas sincronizados dos contadores do kernel;
-- persistência foi organizada por sessões e políticas de retenção;
-- menus, widgets, comandos e temas passaram a usar catálogos extensíveis;
-- empacotamento e validação de dependências do runtime foram reforçados.
+## Política do histórico
 
-### Corrigido
-
-- transições de PID deixaram de produzir picos artificiais;
-- ausência de processo deixou de ser representada como consumo zero;
-- filas ADB e processos externos ganharam timeout e cancelamento isolados;
-- resolução de caminhos e encerramento do runtime Windows foram estabilizados.
-
-[0.1.0-beta.1]: https://github.com/Erikvilar/analyticsmb-project/releases/tag/v0.1.0-beta.1
+- **Evolução do produto:** nova capacidade ou melhoria relevante para usuários.
+- **Correção de confiabilidade:** ajuste que aumenta a precisão, estabilidade ou confiança nos diagnósticos.
+- **Plataforma e distribuição:** mudanças no runtime, instalador, dependências ou processo de entrega.
+- Alterações internas sem impacto perceptível são agrupadas na versão correspondente para manter o histórico objetivo.
