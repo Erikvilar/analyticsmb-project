@@ -3,7 +3,7 @@
   "private": true,
   "license": "SEE LICENSE IN LICENSE",
   "type": "module",
-  "version": "22.1.20264",
+  "version": "22.1.20265",
   "scripts": {
     "showcase:check": "node scripts/showcase-check.mjs",
     "build": "node --experimental-strip-types --check showcase/backend/cpu-example/cpu.parser.ts && node --experimental-strip-types --check showcase/backend/cpu-example/cpu.calculator.ts",
