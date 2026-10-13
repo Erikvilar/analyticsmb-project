@@ -1,39 +1,43 @@
-# AnalyticsMB 0.1.0-beta.1
+# AnalyticsMB 22.4.20265
 
-## Destaques
+## Publicação atual
 
-- Process Resilience Monitor;
-- relatórios de cenários Maestro;
-- runtime Windows autocontido;
-- métricas históricas e comparativas;
-- verificação SHA-256.
+A publicação mais recente por data no GitHub é **release v22.4.20265**, disponibilizada em 13 de outubro de 2026. As informações abaixo foram conferidas na API pública do GitHub.
+
+A tag dessa publicação ainda se chama `beta-release-v22.1.20265`. Os links usam essa tag para apontar ao artefato correto; o número exibido nesta página acompanha o título da release.
 
 ## Identificação
 
 | Campo | Valor |
 | --- | --- |
-| Versão pública | `0.1.0-beta.1` |
-| Versão interna do build | `22.0.20261` |
-| Status | Beta / pre-release |
-| Data | 16 de agosto de 2026 |
+| Versão pública (título da release) | `22.4.20265` |
+| Tag no GitHub | `beta-release-v22.1.20265` |
+| Versão interna do código principal consultado | `22.4.2026` |
+| Status do produto | Beta |
+| Status da publicação no GitHub | Publicada; não marcada como pre-release |
+| Data de publicação | 13 de outubro de 2026, 20:17 (America/Sao_Paulo) |
 | Plataforma | Windows 10/11 x64 |
+| Arquivo | `AnalyticsMB.7z` |
+| Tamanho | 328.543.602 bytes |
+
+A release não possui notas descritivas no GitHub. As melhorias verificadas no repositório principal estão no [README](README.md), sem presumir que o identificador interno do código seja o mesmo do binário distribuído.
 
 ## Download
 
-[Acessar as releases oficiais](https://github.com/Erikvilar/analyticsmb-project/releases)
+[Baixar AnalyticsMB.7z](https://github.com/Erikvilar/analyticsmb-project/releases/download/beta-release-v22.1.20265/AnalyticsMB.7z) · [Abrir a release 22.4.20265](https://github.com/Erikvilar/analyticsmb-project/releases/tag/beta-release-v22.1.20265) · [Todas as releases](https://github.com/Erikvilar/analyticsmb-project/releases)
 
-O ZIP automático de código-fonte do GitHub não corresponde ao instalador do produto.
+Confira o hash do arquivo baixado, extraia o pacote completo e siga as instruções incluídas na distribuição. O ZIP automático de código-fonte do GitHub não corresponde ao instalador do produto.
 
 ## SHA-256
 
 ```text
-348002044314992354AF5E367A0E402DF8956B830C92A1AEBBA64FB7FC28BB0E
+a92c144b8488e2c99a0d8ea055c6b462ca8cbf65a652234e6674b9d44900a15a
 ```
 
-Valide no PowerShell:
+Digest informado pelo GitHub para **`AnalyticsMB.7z`**. Ele se aplica ao arquivo compactado, não ao executável extraído. Valide no PowerShell:
 
 ```powershell
-Get-FileHash .\AnalyticsMB-Setup.exe -Algorithm SHA256
+Get-FileHash .\AnalyticsMB.7z -Algorithm SHA256
 ```
 
 ## Requisitos

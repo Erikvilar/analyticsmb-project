@@ -12,9 +12,13 @@ Histórico executivo das evoluções publicadas no showcase. As versões mais re
 
 ## Versão pública
 
+A publicação mais recente foi conferida pela data de publicação no GitHub em 13/10/2026. O número abaixo corresponde ao título da release; a tag original foi preservada no link.
+
 | Canal | Release | Status | Observação |
 | --- | --- | --- | --- |
-| Beta | [`0.1.0-beta.1`](https://github.com/Erikvilar/analyticsmb-project/releases/tag/v0.1.0-beta.1) | Pre-release | O número público identifica a release disponível no GitHub; a versão interna identifica a evolução do build do produto. |
+| Beta do produto | [`22.4.20265`](https://github.com/Erikvilar/analyticsmb-project/releases/tag/beta-release-v22.1.20265) | Publicada em 13/10/2026 | Artefato `AnalyticsMB.7z`. Tag original: `beta-release-v22.1.20265`. No GitHub, a publicação não está marcada como pre-release. |
+
+O código principal consultado declara a versão interna `22.4.2026`. As melhorias verificadas estão descritas no [README](README.md); a publicação não possui notas próprias no GitHub que permitam atribuir cada alteração ao conteúdo do binário. Os detalhes do download e seu SHA-256 estão em [RELEASE.md](RELEASE.md).
 
 ## Política do histórico
 

@@ -13,10 +13,10 @@ O instalador copia os recursos necessários para o diretório escolhido e regist
 
 ## Integridade
 
-Cada release pública deve informar versão, data, status, requisitos, changelog e SHA-256. Compare o hash do arquivo baixado antes da execução:
+Cada release pública deve informar versão, data, status, requisitos, changelog e SHA-256. A publicação atual é **22.4.20265**, no arquivo `AnalyticsMB.7z`. Consulte [a identificação e o hash da release](../RELEASE.md) e compare o hash do arquivo compactado antes de extraí-lo:
 
 ```powershell
-Get-FileHash .\AnalyticsMB-Setup.exe -Algorithm SHA256
+Get-FileHash .\AnalyticsMB.7z -Algorithm SHA256
 ```
 
 ## SmartScreen e assinatura
